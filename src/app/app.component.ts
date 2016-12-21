@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
-
-import { HomePage } from '../pages/home/home';
+import {OverviewPageComponent} from "./hangman/overview-page.component";
 
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage = HomePage;
+  rootPage = OverviewPageComponent;
 
   constructor(platform: Platform) {
     platform.ready().then(() => {

@@ -9,4 +9,8 @@ export class OverviewPageComponent {
   constructor(public navCtrl: NavController){
 
   }
+
+  showProfile(): void {
+
+  }
 }

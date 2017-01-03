@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar color="navbarColor">
+    <ion-title>
+        Hangman
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="showProfile()">
+        <ion-icon name="person"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-item-group>
+    <ion-item-divider color="light">Aktuelle Spiele</ion-item-divider>
+    <ion-list>
+      <ion-item *ngFor="">
+        <!-- TODO: Add view of current games -->
+      </ion-item>
+    </ion-list>
+  </ion-item-group>
+</ion-content>

@@ -2,10 +2,13 @@ import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 import {OverviewPageComponent} from "./hangman/overview-page.component";
+import {UserService} from "./hangman/user.service";
 
 
 @Component({
-  templateUrl: 'app.html'
+  selector: 'my-app',
+  template: `<ion-nav [root]="rootPage"></ion-nav>`,
+  providers: [UserService]
 })
 export class MyApp {
   rootPage = OverviewPageComponent;

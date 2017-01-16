@@ -5,7 +5,6 @@ import {getUserConfigFile} from "@ionic/app-scripts/dist";
 
 @Injectable()
 export class UserDataService {
-  profileData: any;
 
   constructor() {
   }
@@ -14,26 +13,19 @@ export class UserDataService {
     return firebase.database().ref('/users').child(firebase.auth().currentUser.uid);
   }
 
-  addActiveGame(game: Game): void {
-    let currentActiveGames: Game[] = [];
-
-    this.getUserProfile().on('value', (data) => {
-      this.profileData = data.val();
-      currentActiveGames = this.profileData.activeGames;
-    });
-    let newActiveGames = currentActiveGames.concat(game);
+  addGame(game: Game): void {
+    let savedGames: Game[] = this.getGames();
+    savedGames.push(game);
     this.getUserProfile().update({
-      activeGames: newActiveGames
+      games: savedGames
     })
   }
 
-
-  getActiveGames(): Game[] {
-    let currentActiveGames: Game[] = [];
-    this.getUserProfile().on('value', (data) => {
-      this.profileData = data.val();
-      currentActiveGames = this.profileData.activeGames;
+  getGames(): Game[] {
+    let currentGames: Game[] = [];
+    firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/games').on('value', (data) => {
+      currentGames= data.val();
     });
-    return currentActiveGames;
+    return currentGames;
   }
 }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
-import {OverviewPageComponent} from "./hangman/overview-page.component";
+import {LoginPageComponent} from "./hangman/login-page.component"
 import {AuthService} from "./hangman/auth.service";
 import {UserDataService} from "./hangman/userdata.service";
 import * as firebase from "firebase";
@@ -12,7 +12,7 @@ import * as firebase from "firebase";
   providers: [AuthService, UserDataService]
 })
 export class MyApp {
-  rootPage = OverviewPageComponent;
+  rootPage = LoginPageComponent;
 
   constructor(platform: Platform) {
     firebase.initializeApp({
@@ -23,8 +23,7 @@ export class MyApp {
       messagingSenderId: "736804327381"
     });
     platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
+
       StatusBar.styleDefault();
       Splashscreen.hide();
     });

@@ -3,6 +3,99 @@
 .toolbar-background {
   background-color: #ed5e5e;
 }
+
+login-page {
+  form {
+    margin-bottom: 32px;
+    button {
+      margin-top: 20px;
+    }
+  }
+
+  p {
+    font-size: 0.8em;
+    color: #d2d2d2;
+  }
+
+  ion-label {
+    margin-left: 5px;
+  }
+
+  ion-input {
+    padding: 5px;
+  }
+
+  .invalid {
+    border-bottom: 1px solid #FF6153;
+  }
+
+  .error-message .item-inner {
+    border-bottom: 0 !important;
+  }
+
+}
+
+resetpassword-page{
+    form {
+      margin-bottom: 32px;
+
+      button {
+        margin-top: 20px;
+      }
+    }
+
+    p {
+      font-size: 0.8em;
+      color: #d2d2d2;
+    }
+
+    ion-label {
+      margin-left: 5px;
+    }
+
+    ion-input {
+      padding: 5px;
+    }
+
+    .invalid {
+      border-bottom: 1px solid #FF6153;
+    }
+
+    .error-message .item-inner {
+      border-bottom: 0 !important;
+    }
+}
+
+signup-page{
+  form {
+    margin-bottom: 32px;
+    button {
+      margin-top: 20px;
+    }
+  }
+
+  p {
+    font-size: 0.8em;
+    color: #d2d2d2;
+  }
+
+  ion-label {
+    margin-left: 5px;
+  }
+
+  ion-input {
+    padding: 5px;
+  }
+
+  .invalid {
+    border-bottom: 1px solid #FF6153;
+  }
+
+  .error-message .item-inner {
+    border-bottom: 0 !important;
+  }
+
+}
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These

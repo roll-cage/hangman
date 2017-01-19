@@ -2,12 +2,18 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { OverviewPageComponent } from './hangman/overview-page.component';
-import * as firebase from "firebase";
+import { LoginPageComponent } from './hangman/login-page.component';
+import { SignupPageComponent } from './hangman/signup-page.component';
+import { ResetPasswordPageComponent } from './hangman/resetpassword-page.component';
+
 
 @NgModule({
   declarations: [
     MyApp,
-    OverviewPageComponent
+    OverviewPageComponent,
+    LoginPageComponent,
+    ResetPasswordPageComponent,
+    SignupPageComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -15,7 +21,10 @@ import * as firebase from "firebase";
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    OverviewPageComponent
+    OverviewPageComponent,
+    LoginPageComponent,
+    ResetPasswordPageComponent,
+    SignupPageComponent
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })

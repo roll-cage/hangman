@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      Registrieren
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <img src="http://placehold.it/300x100">
+  <form [formGroup]="signupForm" (submit)="signupUser()" novalidate>
+
+    <ion-item>
+      <ion-label stacked>Email</ion-label>
+      <ion-input #email formControlName="email" type="email" (change)="elementChanged(email)"
+                 placeholder="Email"
+                 [class.invalid]="!signupForm.controls.email.valid && (emailChanged || submitAttempt)"></ion-input>
+    </ion-item>
+    <ion-item class="error-message" *ngIf="!signupForm.controls.email.valid  && (emailChanged || submitAttempt)">
+      <p>Bitte E-Mail eingeben.</p>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Passwort</ion-label>
+      <ion-input #password formControlName="password" type="password" (change)="elementChanged(password)"
+                 placeholder="Passwort"
+                 [class.invalid]="!signupForm.controls.password.valid && (passwordChanged || submitAttempt)"></ion-input>
+    </ion-item>
+    <ion-item class="error-message" *ngIf="!signupForm.controls.password.valid  && (passwordChanged || submitAttempt)">
+      <p>Passwort muss mindestens 6 Zeichen haben.</p>
+    </ion-item>
+
+    <button ion-button block type="submit">
+      Create an Account
+    </button>
+
+  </form>
+
+</ion-content>

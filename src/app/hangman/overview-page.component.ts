@@ -6,6 +6,7 @@ import {UserDataService} from "./userdata.service";
 import firebase from 'firebase';
 import {Game} from "./game.model";
 import {LoginPageComponent} from "./login-page.component"
+import {Topic} from "./topic.model";
 
 @Component({
   selector: 'overview-page',
@@ -14,18 +15,19 @@ import {LoginPageComponent} from "./login-page.component"
 
 export class OverviewPageComponent {
   user: User;
-  activeGames: Game[];
+  pastGames: Game[];
   constructor(public navCtrl: NavController, private userService: AuthService, private userDataService: UserDataService){
     //userService.loginUser("hansgjhgkjgjgjgjg@ggmail.com", "password");
-    firebase.auth().onAuthStateChanged(function(user) {
+    /*firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
-        //userDataService.addActiveGame(new Game("id", new Topic(), "Hangman", true));
-        this.activeGames = userDataService.getActiveGames();
-        console.log(this.activeGames);
+        //userDataService.addGame(new Game("id", new Topic(), "Hangman", true));
+        this.pastGames = userDataService.getGames();
+        console.log(this.pastGames);
       } else {
         console.log("No user is signed in.");
       }
     });
+    setTimeout(()=> console.log(this.pastGames), 5000)*/
   }
 
   showProfile(): void {

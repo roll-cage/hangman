@@ -21,6 +21,7 @@ export class LoginPageComponent {
   passwordChanged: boolean = false;
   submitAttempt: boolean = false;
   loading: any;
+  error: any;
 
   constructor(public nav: NavController, public authData: AuthService, public formBuilder: FormBuilder,
               public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
@@ -44,7 +45,7 @@ export class LoginPageComponent {
     if (!this.loginForm.valid){
       console.log(this.loginForm.value);
     } else {
-      this.authData.loginUser(this.loginForm.value.email, this.loginForm.value.password).then( authData => {
+      /*this.authData.loginUser(this.loginForm.value.email, this.loginForm.value.password).then( authData => {
         this.nav.setRoot(OverviewPageComponent);
       }, error => {
         this.loading.dismiss().then( () => {
@@ -65,6 +66,23 @@ export class LoginPageComponent {
         dismissOnPageChange: true,
       });
       this.loading.present();
+    */
+      let loading = this.loadingCtrl.create({
+        content: 'Please wait...'
+      });
+      loading.present();
+
+      this.authData.loginUser(this.loginForm.value.email, this.loginForm.value.password).subscribe(data => {
+        setTimeout(() => {
+          loading.dismiss();
+          // The auth subscribe method inside the app.ts will handle the page switch to home
+        }, 1000);
+      }, err => {
+        setTimeout(() => {
+          loading.dismiss();
+          this.error = err;
+        }, 1000);
+      });
     }
   }
 

@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import {Component, ViewChild} from '@angular/core';
+import {Platform, Nav} from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 import {LoginPageComponent} from "./hangman/login-page.component"
 import {AuthService} from "./hangman/auth.service";
 import {UserDataService} from "./hangman/userdata.service";
-import * as firebase from "firebase";
+import {OverviewPageComponent} from "./hangman/overview-page.component";
 
 @Component({
   selector: 'my-app',
@@ -12,13 +12,27 @@ import * as firebase from "firebase";
   providers: [AuthService, UserDataService]
 })
 export class MyApp {
-  rootPage = LoginPageComponent;
+  @ViewChild(Nav) nav: Nav;
+  isAppInitialized: boolean = false;
+  user: any;
 
-  constructor(platform: Platform) {
+  constructor(private platform: Platform, protected auth: AuthService ) {
     platform.ready().then(() => {
-
       StatusBar.styleDefault();
       Splashscreen.hide();
+    });
+  }
+  ngOnInit() {
+    this.platform.ready().then(() => {
+      this.auth.getUserData().subscribe(data => {
+        if (!this.isAppInitialized) {
+          this.nav.setRoot(OverviewPageComponent);
+          this.isAppInitialized = true;
+        }
+        this.user = data;
+      }, err => {
+        this.nav.setRoot(LoginPageComponent);
+      });
     });
   }
 }

@@ -1,16 +1,32 @@
 import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/map';
-import firebase from 'firebase';
 import {AngularFire, AngularFireAuth, AuthProviders, AuthMethods} from "angularfire2";
 import {Observable} from "rxjs";
+import {UserDataService} from "./userdata.service";
+import {ResetPasswordHelper} from "./resetpasswordhelper.service"
 
 @Injectable()
 export class AuthService {
   fireAuth: AngularFireAuth;
-  userProfile: any;
-  constructor(public af: AngularFire) {
+  user: any;
+  constructor(public af: AngularFire, private data: UserDataService) {
     this.fireAuth = af.auth;
-    this.userProfile = firebase.database().ref('/users');
+  }
+
+  getUserData() {
+    return Observable.create(observer => {
+      this.af.auth.subscribe(authData => {
+        if (authData) {
+          this.data.object('users/' + authData.uid).subscribe(userData => {
+            console.log(userData);
+            this.user = userData;
+            observer.next(userData);
+          });
+        } else {
+          observer.error();
+        }
+      });
+    });
   }
 
   loginUser(email: string, password: string): any {
@@ -58,7 +74,7 @@ export class AuthService {
   }
 
   resetPassword(email: string): any {
-    return firebase.auth().sendPasswordResetEmail(email);
+    //ResetPasswordHelper.resetPassword(email);
   }
 
   logoutUser(): any {

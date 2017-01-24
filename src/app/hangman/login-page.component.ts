@@ -75,6 +75,7 @@ export class LoginPageComponent {
       this.authData.loginUser(this.loginForm.value.email, this.loginForm.value.password).subscribe(data => {
         setTimeout(() => {
           loading.dismiss();
+          this.nav.setRoot(OverviewPageComponent);
           // The auth subscribe method inside the app.ts will handle the page switch to home
         }, 1000);
       }, err => {

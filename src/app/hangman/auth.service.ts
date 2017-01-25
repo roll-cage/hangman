@@ -1,16 +1,15 @@
-import {Injectable} from '@angular/core';
+import {Injectable, Inject} from '@angular/core';
 import 'rxjs/add/operator/map';
-import {AngularFire, AngularFireAuth, AuthProviders, AuthMethods} from "angularfire2";
+import {AngularFire, AngularFireAuth, AuthProviders, AuthMethods, FirebaseApp} from "angularfire2";
 import {Observable} from "rxjs";
 import {UserDataService} from "./userdata.service";
-import {ResetPasswordHelper} from "./resetpasswordhelper.service"
 
 @Injectable()
 export class AuthService {
-  fireAuth: AngularFireAuth;
+  fireAuth: any;
   user: any;
-  constructor(public af: AngularFire, private data: UserDataService) {
-    this.fireAuth = af.auth;
+  constructor(public af: AngularFire, private data: UserDataService, @Inject(FirebaseApp) fa : any) {
+    this.fireAuth = fa.auth;
   }
 
   getUserData() {
@@ -74,11 +73,11 @@ export class AuthService {
   }
 
   resetPassword(email: string): any {
-    //ResetPasswordHelper.resetPassword(email);
+    this.fireAuth.sendPasswordResetEmail(email);
   }
 
-  logoutUser(): any {
-    return this.fireAuth.logout();
+  logoutUser() {
+    this.af.auth.logout();
   }
 
 }

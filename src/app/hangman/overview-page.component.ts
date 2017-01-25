@@ -34,8 +34,7 @@ export class OverviewPageComponent {
   }
 
   logOut(){
-    this.userService.logoutUser().then(() => {
-      this.navCtrl.setRoot(LoginPageComponent);
-    });
+    this.userService.logoutUser()
+    this.navCtrl.setRoot(LoginPageComponent);
   }
 }

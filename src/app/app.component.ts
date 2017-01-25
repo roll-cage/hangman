@@ -14,7 +14,6 @@ import {OverviewPageComponent} from "./hangman/overview-page.component";
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
   isAppInitialized: boolean = false;
-  user: any;
 
   constructor(private platform: Platform, protected auth: AuthService ) {
     platform.ready().then(() => {
@@ -29,7 +28,6 @@ export class MyApp {
           this.nav.setRoot(OverviewPageComponent);
           this.isAppInitialized = true;
         }
-        this.user = data;
       }, err => {
         this.nav.setRoot(LoginPageComponent);
       });

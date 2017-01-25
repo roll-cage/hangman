@@ -1,8 +1,9 @@
 import {Injectable, Inject} from '@angular/core';
 import 'rxjs/add/operator/map';
-import {AngularFire, AngularFireAuth, AuthProviders, AuthMethods, FirebaseApp} from "angularfire2";
+import {AngularFire, AuthProviders, AuthMethods, FirebaseApp} from "angularfire2";
 import {Observable} from "rxjs";
 import {UserDataService} from "./userdata.service";
+//login logic adopted from https://github.com/rodrigoreal/ionic2-angularfire-login
 
 @Injectable()
 export class AuthService {
@@ -12,7 +13,7 @@ export class AuthService {
     this.fireAuth = fa.auth;
   }
 
-  getUserData() {
+  getUserData(): any {
     return Observable.create(observer => {
       this.af.auth.subscribe(authData => {
         if (authData) {

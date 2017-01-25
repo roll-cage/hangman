@@ -6,12 +6,40 @@ import {FirebaseListObservable, FirebaseObjectObservable, AngularFire} from "ang
 
 @Injectable()
 export class UserDataService {
-  fbRecords: FirebaseListObservable<any[]>;
+  fbGames: FirebaseListObservable<any[]>;
   games: Observable<Game[]>
   constructor(private af: AngularFire) {
   }
+
   object(path: string): FirebaseObjectObservable<any> {
     return this.af.database.object(path);
+  }
+
+  initializeService(): void {
+    this.af.auth.subscribe(authData => {
+      if(authData){
+        this.fbGames = this.af.database.list("users/" + authData.uid + "/games");
+      }
+    });
+    this.games = this.fbGames.map(
+      (fbGames: any[]): Game[] => {
+        return fbGames.map(
+          fbItem => {
+            return new Game(fbItem.$key, fbItem.topic, fbItem.word, fbItem.singleplayer);
+          })
+      });
+  }
+
+  findGames(): Observable<Game[]> {
+    return this.games;
+  }
+
+  persist(game: Game): void {
+    this.fbGames.push(game);
+  }
+
+  delete(id: any): void {
+    this.fbGames.remove(id);
   }
   /*
    getUserProfile(): any {

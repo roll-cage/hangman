@@ -28,6 +28,14 @@ export class OverviewPageComponent {
       }
     });
     setTimeout(()=> console.log(this.pastGames), 5000);*/
+    userDataService.initializeService();
+    userDataService.findGames().subscribe(
+      (games: Game[])=> {
+        this.pastGames = games;
+        console.log(games[0]);
+      }
+    )
+    userDataService.persist(new Game(null, null, "Hallo", true));
   }
 
   showProfile(): void {

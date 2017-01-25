@@ -18,8 +18,8 @@
     <ion-item-divider color="light">Vergangene Spiele</ion-item-divider>
     <ion-list>
       <ion-item-sliding *ngFor="let game of pastGames">
-        <button ion-item (click) = "logOut()">
-          <h2>{{game.id}}</h2>
+        <button ion-item>
+          <h2>{{game.word}}</h2>
         </button>
       </ion-item-sliding>
     </ion-list>

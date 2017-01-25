@@ -76,7 +76,6 @@ export class LoginPageComponent {
         setTimeout(() => {
           loading.dismiss();
           this.nav.setRoot(OverviewPageComponent);
-          // The auth subscribe method inside the app.ts will handle the page switch to home
         }, 1000);
       }, err => {
         setTimeout(() => {

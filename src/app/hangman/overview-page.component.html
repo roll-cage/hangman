@@ -15,13 +15,21 @@
 </ion-header>
 <ion-content>
   <ion-item-group>
+    <ion-item-divider color="light">Laufende Spiele</ion-item-divider>
     <ion-item-divider color="light">Vergangene Spiele</ion-item-divider>
     <ion-list>
       <ion-item-sliding *ngFor="let game of pastGames">
         <button ion-item>
           <h2>{{game.word}}</h2>
         </button>
+        <ion-item-options side="right">
+          <button ion-button color="danger" (click)="deleteGame(game)">Löschen</button>
+        </ion-item-options>
       </ion-item-sliding>
     </ion-list>
+    <button ion-item *ngIf="pastGames.length == 0">Keine vergangenen Spiele Verfügbar</button>
   </ion-item-group>
 </ion-content>
+<ion-footer>
+    <button ion-item class="button button-full button-positive">Neues Spiel</button>
+</ion-footer>

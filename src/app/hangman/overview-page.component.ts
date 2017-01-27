@@ -7,6 +7,7 @@ import {Game} from "./game.model";
 import {LoginPageComponent} from "./login-page.component"
 import {Topic} from "./topic.model";
 import {AngularFire} from "angularfire2";
+import {TopicDataService} from "./topicdata.service";
 
 @Component({
   selector: 'overview-page',
@@ -15,8 +16,8 @@ import {AngularFire} from "angularfire2";
 
 export class OverviewPageComponent {
   user: User;
-  pastGames: Game[];
-  constructor(public navCtrl: NavController, private userService: AuthService, private userDataService: UserDataService, public af: AngularFire){
+  pastGames: Game[] = [];
+  constructor(public navCtrl: NavController, private userService: AuthService, private userDataService: UserDataService, private tds: TopicDataService, public af: AngularFire){
     //userService.loginUser("hansgjhgkjgjgjgjg@ggmail.com", "password");
     /*af.auth.onAuthStateChanged(function(user) {
       if (user) {
@@ -34,11 +35,17 @@ export class OverviewPageComponent {
         this.pastGames = games;
         console.log(games[0]);
       }
-    )
-    userDataService.persist(new Game(null, null, "Hallo", true));
+    );
+    let tiere: string[] = ["Elefant", "Koalabaer", "Galapagosschildkröte"];
+    //tds.persist(new Topic(null, "Tiere", tiere));
+    setTimeout(()=> console.log(tds.getWordFromTopic("Tiere")), 5000);
   }
 
   showProfile(): void {
+  }
+
+  deleteGame(game: Game){
+    this.userDataService.delete(game.id);
   }
 
   logOut(){

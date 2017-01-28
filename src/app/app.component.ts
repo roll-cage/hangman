@@ -6,11 +6,12 @@ import {AuthService} from "./hangman/auth.service";
 import {UserDataService} from "./hangman/userdata.service";
 import {OverviewPageComponent} from "./hangman/overview-page.component";
 import {TopicDataService} from "./hangman/topicdata.service";
+import {UsernamesService} from "./hangman/usernames.service";
 
 @Component({
   selector: 'my-app',
   template: `<ion-nav [root]="rootPage"></ion-nav>`,
-  providers: [AuthService, UserDataService, TopicDataService]
+  providers: [AuthService, UserDataService, TopicDataService, UsernamesService]
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;

@@ -18,7 +18,6 @@ export class AuthService {
       this.af.auth.subscribe(authData => {
         if (authData) {
           this.data.object('users/' + authData.uid).subscribe(userData => {
-            console.log(userData);
             this.user = userData;
             observer.next(userData);
           });

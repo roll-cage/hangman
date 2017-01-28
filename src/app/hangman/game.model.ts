@@ -1,13 +1,18 @@
-import {Topic} from "./topic.model";
 export class Game {
   id: string;
-  topic: Topic;
+  topic: string;
   word: string;
+  badChars: number;
   singleplayer: boolean;
-  constructor (id: string, topic: Topic, word: string, singleplayer: boolean){
+  opponentName: string;
+  badCharsOpponent: number;
+  constructor (id: string, topic: string, word: string, badChars: number, singleplayer: boolean, opponentName: string, badCharsOpponent: number){
     this.id = id;
     this.topic = topic;
     this.word = word;
+    this.badChars = badChars;
     this.singleplayer = singleplayer;
+    this.opponentName = opponentName;
+    this.badCharsOpponent = badCharsOpponent;
   }
 }

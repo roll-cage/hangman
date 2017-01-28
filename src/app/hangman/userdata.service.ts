@@ -7,7 +7,7 @@ import {FirebaseListObservable, FirebaseObjectObservable, AngularFire} from "ang
 @Injectable()
 export class UserDataService {
   fbGames: FirebaseListObservable<any[]>;
-  games: Observable<Game[]>
+  games: Observable<Game[]>;
   constructor(private af: AngularFire) {
   }
 
@@ -25,7 +25,7 @@ export class UserDataService {
       (fbGames: any[]): Game[] => {
         return fbGames.map(
           fbItem => {
-            return new Game(fbItem.$key, fbItem.topic, fbItem.word, fbItem.singleplayer);
+            return new Game(fbItem.$key, fbItem.topic, fbItem.word, fbItem.badChars, fbItem.singleplayer, fbItem.opponentName, fbItem.badCharsOpponent);
           })
       });
   }
@@ -34,31 +34,11 @@ export class UserDataService {
     return this.games;
   }
 
-  persist(game: Game): void {
-    this.fbGames.push(game);
+  persist(game: Game): string {
+    return this.fbGames.push(game).key;
   }
 
   delete(id: any): void {
     this.fbGames.remove(id);
   }
-  /*
-   getUserProfile(): any {
-     return firebase.database().ref('/users').child(firebase.auth().currentUser.uid);
-   }
-
-   addGame(game: Game): void {
-     let savedGames: Game[] = this.getGames();
-     savedGames.push(game);
-     this.getUserProfile().update({
-       games: savedGames
-     })
-   }
-
-   getGames(): Game[] {
-     let currentGames: Game[] = [];
-     firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/games').on('value', (data) => {
-       currentGames= data.val();
-     });
-     return currentGames;
-   }*/
 }

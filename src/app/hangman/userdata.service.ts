@@ -7,8 +7,21 @@ import {FirebaseListObservable, FirebaseObjectObservable, AngularFire} from "ang
 @Injectable()
 export class UserDataService {
   fbGames: FirebaseListObservable<any[]>;
+  fbUsername: FirebaseObjectObservable<any>;
   games: Observable<Game[]>;
+  username: string;
   constructor(private af: AngularFire) {
+    this.af.auth.subscribe(authData => {
+      if(authData){
+        this.fbGames = this.af.database.list("users/" + authData.uid + "/games");
+        this.fbUsername = this.af.database.object("users/" + authData.uid + "/username", { preserveSnapshot: true });
+        this.fbUsername.subscribe(
+          snapshot => {
+            this.username = snapshot.val();
+          }
+        );
+      }
+    });
   }
 
   object(path: string): FirebaseObjectObservable<any> {
@@ -16,11 +29,6 @@ export class UserDataService {
   }
 
   initializeService(): void {
-    this.af.auth.subscribe(authData => {
-      if(authData){
-        this.fbGames = this.af.database.list("users/" + authData.uid + "/games");
-      }
-    });
     this.games = this.fbGames.map(
       (fbGames: any[]): Game[] => {
         return fbGames.map(
@@ -28,6 +36,10 @@ export class UserDataService {
             return new Game(fbItem.$key, fbItem.topic, fbItem.word, fbItem.badChars, fbItem.singleplayer, fbItem.opponentName, fbItem.badCharsOpponent);
           })
       });
+  }
+
+  getUsername(): string{
+    return this.username;
   }
 
   findGames(): Observable<Game[]> {

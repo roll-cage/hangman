@@ -7,17 +7,18 @@ import {UserDataService} from "./hangman/userdata.service";
 import {OverviewPageComponent} from "./hangman/overview-page.component";
 import {TopicDataService} from "./hangman/topicdata.service";
 import {UsernamesService} from "./hangman/usernames.service";
+import {MPGameStarterService} from "./hangman/multiplayerGameStarter.service";
 
 @Component({
   selector: 'my-app',
   template: `<ion-nav [root]="rootPage"></ion-nav>`,
-  providers: [AuthService, UserDataService, TopicDataService, UsernamesService]
+  providers: [AuthService, UserDataService, TopicDataService, UsernamesService, MPGameStarterService]
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
   isAppInitialized: boolean = false;
 
-  constructor(private platform: Platform, protected auth: AuthService ) {
+  constructor(private platform: Platform, protected auth: AuthService, private usernamesService: UsernamesService) {
     platform.ready().then(() => {
       StatusBar.styleDefault();
       Splashscreen.hide();

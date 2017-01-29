@@ -44,6 +44,7 @@ export class AuthService {
 
   signupUser(email: string, password: string, username: string): any {
     let credentials: any = {email: email, password: password};
+    //Todo: add username validation
     return Observable.create(observer => {
       this.af.auth.createUser(credentials).then((authData: any) => {
         this.af.database.list('users').update(authData.uid, {

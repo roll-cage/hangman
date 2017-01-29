@@ -8,6 +8,9 @@ import {LoginPageComponent} from "./login-page.component"
 import {Topic} from "./topic.model";
 import {AngularFire} from "angularfire2";
 import {TopicDataService} from "./topicdata.service";
+import {UsernamesService} from "./usernames.service";
+import {MPGameStarterService} from "./multiplayerGameStarter.service";
+import {MPGameStarter} from "./multiplayerGameStarter.model";
 
 @Component({
   selector: 'overview-page',
@@ -17,28 +20,27 @@ import {TopicDataService} from "./topicdata.service";
 export class OverviewPageComponent {
   user: User;
   pastGames: Game[] = [];
-  constructor(public navCtrl: NavController, private userService: AuthService, private userDataService: UserDataService, private tds: TopicDataService, public af: AngularFire){
+  constructor(public navCtrl: NavController, private userService: AuthService, private userDataService: UserDataService, private tds: TopicDataService,
+              private usernamesService: UsernamesService, private mpgamestarter: MPGameStarterService, public af: AngularFire){
     //userService.loginUser("hansgjhgkjgjgjgjg@ggmail.com", "password");
-    /*af.auth.onAuthStateChanged(function(user) {
-      if (user) {
-        //userDataService.addGame(new Game("id", new Topic(), "Hangman", true));
-        this.pastGames = userDataService.getGames();
-        console.log(this.pastGames);
-      } else {
-        console.log("No user is signed in.");
-      }
-    });
-    setTimeout(()=> console.log(this.pastGames), 5000);*/
     userDataService.initializeService();
     userDataService.findGames().subscribe(
       (games: Game[])=> {
         this.pastGames = games;
-        console.log(games[0]);
+        //console.log(games[0]);
       }
     );
-    let tiere: string[] = ["Elefant", "Koalabaer", "Galapagosschildkröte"];
-    //tds.persist(new Topic(null, "Tiere", tiere));
-    setTimeout(()=> console.log(tds.getWordFromTopic("Tiere")), 5000);
+    mpgamestarter.findNewMPGames().subscribe(
+      (newMpGames: MPGameStarter[]) => {
+        newMpGames.forEach((newMpGame) => {
+          if(newMpGame.opponent == userDataService.getUsername()){
+            //Todo: add logic for new mp game
+          }
+        });
+      }
+    );
+    /*let tiere: string[] = ["Elefant", "Koalabaer", "Galapagosschildkröte"];
+    tds.persist(new Topic(null, "Tiere", tiere));*/
   }
 
   showProfile(): void {

@@ -7,13 +7,13 @@ import {UserDataService} from "./userdata.service";
 
 
 @Injectable()
-export class MPGameStarterService {
-  fbNewMPGames: FirebaseListObservable<any[]>;
-  newMPGames: Observable<MPGame[]>;
+export class MPGameFinishedService {
+  fbFinishedMPGames: FirebaseListObservable<any[]>;
+  finishedMPGames: Observable<MPGame[]>;
 
   constructor(private af: AngularFire, private userdataService: UserDataService) {
-    this.fbNewMPGames = af.database.list('/newMPGames');
-    this.newMPGames = this.fbNewMPGames.map(
+    this.fbFinishedMPGames = af.database.list('/finishedMPGames');
+    this.finishedMPGames = this.fbFinishedMPGames.map(
       (fbNewMPGames: any[]): MPGame[] => {
         return fbNewMPGames.map(
           fbItem => {
@@ -21,14 +21,13 @@ export class MPGameStarterService {
           })
       });
   }
-  findNewMPGames(): Observable<MPGame[]> {
-    return this.newMPGames;
+  findFinishedMPGames(): Observable<MPGame[]> {
+    return this.finishedMPGames;
   }
-  addNewMPGame(game: Game): void{
-    let gameId = this.userdataService.persist(game);
-    this.af.database.object("/newMPGames/" + gameId).set(new MPGame(null, game.topic, game.word, game.badChars, this.userdataService.getUsername(), game.opponentName));
+  addFinishedMPGame(game: Game): void{
+    this.af.database.object("/finishedMPGames/" + game.id).set(new MPGame(null, game.topic, game.word, game.badChars, this.userdataService.getUsername(), game.opponentName));
   }
   deleteFinishedMPGame(gameId: string): void{
-    this.fbNewMPGames.remove(gameId);
+    this.fbFinishedMPGames.remove(gameId);
   }
 }

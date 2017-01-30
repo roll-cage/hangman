@@ -8,11 +8,12 @@ import {OverviewPageComponent} from "./hangman/overview-page.component";
 import {TopicDataService} from "./hangman/topicdata.service";
 import {UsernamesService} from "./hangman/usernames.service";
 import {MPGameStarterService} from "./hangman/multiplayerGameStarter.service";
+import {MPGameFinishedService} from "./hangman/multiplayerGameFinished.service";
 
 @Component({
   selector: 'my-app',
   template: `<ion-nav [root]="rootPage"></ion-nav>`,
-  providers: [AuthService, UserDataService, TopicDataService, UsernamesService, MPGameStarterService]
+  providers: [AuthService, UserDataService, TopicDataService, UsernamesService, MPGameStarterService, MPGameFinishedService]
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;

@@ -53,4 +53,7 @@ export class UserDataService {
   delete(id: any): void {
     this.fbGames.remove(id);
   }
+  update(game: Game): void {
+    this.fbGames.update(game.id, game);
+  }
 }

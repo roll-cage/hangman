@@ -32,7 +32,7 @@ export class OverviewPageComponent {
         this.pastGames = [];
         this.startedMPGames = [];
         games.forEach((game) => {
-          if(game.singleplayer || game.badCharsOpponent == null){
+          if(game.singleplayer || game.badCharsOpponent != null){
             this.pastGames.push(game);
           } else {
             this.startedMPGames.push(game);
@@ -44,7 +44,7 @@ export class OverviewPageComponent {
       (newMpGames: MPGame[]) => {
         newMpGames.forEach((newMpGame) => {
           if(userDataService.getUsername().localeCompare(newMpGame.opponent) == 0){
-            this.mpGamesToAccept.push(newMpGame);
+            this.mpGamesToAccept.push(new MPGame(newMpGame.id, newMpGame.topic, newMpGame.word, newMpGame.badChars, userDataService.getUsername(), newMpGame.username));
             //dont forget to delete it after game finished
           }
         });

@@ -28,7 +28,7 @@
         <p>Falsche Buchstaben: {{game.badChars}} // Warte auf Gegner</p>
       </button>
     </ion-list>
-    <button ion-item *ngIf="(startedMPGames.length == 0) && (mpGamesToAccept.length == 0)">Keine Aktiven MP-Spiele Verfügbar</button>
+    <button ion-item *ngIf="(startedMPGames.length == 0) && (mpGamesToAccept.length == 0)">Keine aktiven MP-Spiele verfügbar</button>
     <ion-item-divider color="light">Vergangene Spiele</ion-item-divider>
     <ion-list>
       <ion-item-sliding *ngFor="let game of pastGames">
@@ -60,9 +60,9 @@
         </ion-item-options>
       </ion-item-sliding>
     </ion-list>
-    <button ion-item *ngIf="pastGames.length == 0">Keine vergangenen Spiele Verfügbar</button>
+    <button ion-item *ngIf="pastGames.length == 0">Keine vergangenen Spiele verfügbar</button>
   </ion-item-group>
 </ion-content>
 <ion-footer>
-    <button ion-item text-center>Neues Spiel</button>
+    <button ion-item text-center color="primary" (click)="chooseGameMode()">Neues Spiel</button>
 </ion-footer>

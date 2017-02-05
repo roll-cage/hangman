@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      Gegner Suchen
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="viewCtrl.dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-item-divider color="light">Username des Gegners eingeben:</ion-item-divider>
+  <ion-item>
+    <ion-input placeholder="Username" [(ngModel)]="usernameEntered" clearInput></ion-input>
+    <ion-label fixed *ngIf="usernameWrong"
+  </ion-item>
+  <button ion-button block (click)="checkUsername()">Spiel starten</button>
+</ion-content>
+

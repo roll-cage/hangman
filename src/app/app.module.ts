@@ -6,6 +6,7 @@ import { LoginPageComponent } from './hangman/login-page.component';
 import { SignupPageComponent } from './hangman/signup-page.component';
 import { ResetPasswordPageComponent } from './hangman/resetpassword-page.component';
 import {AngularFireModule} from "angularfire2";
+import {UserPickerPageComponent} from "./hangman/userpicker-page.component";
 
 export const firebaseConfig = {
   apiKey: "AIzaSyD83ZpeKd7QPOfVebnnex-tpv_pgD0AN6c",
@@ -21,7 +22,8 @@ export const firebaseConfig = {
     OverviewPageComponent,
     LoginPageComponent,
     ResetPasswordPageComponent,
-    SignupPageComponent
+    SignupPageComponent,
+    UserPickerPageComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -33,7 +35,8 @@ export const firebaseConfig = {
     OverviewPageComponent,
     LoginPageComponent,
     ResetPasswordPageComponent,
-    SignupPageComponent
+    SignupPageComponent,
+    UserPickerPageComponent
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })

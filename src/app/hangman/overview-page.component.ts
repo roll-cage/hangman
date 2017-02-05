@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController} from "ionic-angular";
+import {NavController, AlertController, ModalController} from "ionic-angular";
 import {AuthService} from "./auth.service";
 import {User} from "./user.model";
 import {UserDataService} from "./userdata.service";
@@ -12,6 +12,7 @@ import {UsernamesService} from "./usernames.service";
 import {MPGameStarterService} from "./multiplayerGameStarter.service";
 import {MPGame} from "./multiplayerGame.model";
 import {MPGameFinishedService} from "./multiplayerGameFinished.service";
+import {UserPickerPageComponent} from "./userpicker-page.component";
 
 @Component({
   selector: 'overview-page',
@@ -23,8 +24,10 @@ export class OverviewPageComponent {
   pastGames: Game[] = [];
   startedMPGames: Game[] = [];
   mpGamesToAccept: MPGame[] = [];
-  constructor(public navCtrl: NavController, private userService: AuthService, private userDataService: UserDataService, private tds: TopicDataService,
-              private usernamesService: UsernamesService, private mpgamestarter: MPGameStarterService, private mpGameFinished: MPGameFinishedService, public af: AngularFire){
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public modalCtrl: ModalController,
+              private userService: AuthService, private userDataService: UserDataService, private tds: TopicDataService,
+              private usernamesService: UsernamesService, private mpgamestarter: MPGameStarterService,
+              private mpGameFinished: MPGameFinishedService, public af: AngularFire){
     //userService.loginUser("hansgjhgkjgjgjgjg@ggmail.com", "password");
     userDataService.initializeService();
     userDataService.findGames().subscribe(
@@ -66,6 +69,33 @@ export class OverviewPageComponent {
     //mpgamestarter.addNewMPGame(new Game(null, "Tiere", "Koalabaer", 3, false, "testuser", null));
     /*let tiere: string[] = ["Elefant", "Koalabaer", "Galapagosschildkröte"];
     tds.persist(new Topic(null, "Tiere", tiere));*/
+  }
+
+  chooseGameMode(): void {
+    let confirm = this.alertCtrl.create({
+      title: 'Alleine oder gegen Freunde?',
+      message: 'Willst du dich alleine an einem Wort versuchen oder einem Freund zeigen, wo der Hammer hängt?',
+      buttons: [
+        {
+          text: 'Multiplayer',
+          handler: () => {
+            this.presentUserPickerModal();
+          }
+        },
+        {
+          text: 'Singleplayer',
+          handler: () => {
+
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+  presentUserPickerModal(): void{
+    let modal = this.modalCtrl.create(UserPickerPageComponent);
+    modal.present();
   }
 
   showProfile(): void {

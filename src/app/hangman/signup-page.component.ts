@@ -39,26 +39,29 @@ export class SignupPageComponent {
     if (!this.signupForm.valid){
       console.log(this.signupForm.value);
     } else {
-      this.authData.signupUser(this.signupForm.value.email, this.signupForm.value.password,/*TODO Add username to signupForm*/"test").then(() => {
-        this.nav.setRoot(OverviewPageComponent);
-      }, (error) => {
-        this.loading.dismiss();
-        let alert = this.alertCtrl.create({
-          message: error.message,
-          buttons: [
-            {
-              text: "Ok",
-              role: 'cancel'
-            }
-          ]
-        });
-        alert.present();
+      let loading = this.loadingCtrl.create({
+        content: 'Bitte warten...'
       });
+      loading.present();
 
-      this.loading = this.loadingCtrl.create({
-        dismissOnPageChange: true,
+      this.authData.signupUser(this.signupForm.value.email, this.signupForm.value.password, "test123").subscribe(registerData => {
+        this.authData.loginUser(registerData.email, registerData.password).subscribe(loginData => {
+          setTimeout(() => {
+            loading.dismiss();
+            this.nav.setRoot(OverviewPageComponent);
+          }, 1000);
+        }, loginError => {
+          setTimeout(() => {
+            loading.dismiss();
+            console.log("loginError");
+          }, 1000);
+        });
+      }, registerError => {
+        setTimeout(() => {
+          loading.dismiss();
+          console.log("registerError");
+        }, 1000);
       });
-      this.loading.present();
     }
   }
 }

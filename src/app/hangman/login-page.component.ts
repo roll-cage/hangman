@@ -73,15 +73,11 @@ export class LoginPageComponent {
       loading.present();
 
       this.authData.loginUser(this.loginForm.value.email, this.loginForm.value.password).subscribe(data => {
-        setTimeout(() => {
-          loading.dismiss();
-          this.nav.setRoot(OverviewPageComponent);
-        }, 1000);
+        loading.dismiss();
+        this.nav.setRoot(OverviewPageComponent);
       }, err => {
-        setTimeout(() => {
-          loading.dismiss();
-          this.error = err;
-        }, 1000);
+        loading.dismiss();
+        this.error = err;
       });
     }
   }

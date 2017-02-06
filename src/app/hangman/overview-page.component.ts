@@ -13,6 +13,7 @@ import {MPGameStarterService} from "./multiplayerGameStarter.service";
 import {MPGame} from "./multiplayerGame.model";
 import {MPGameFinishedService} from "./multiplayerGameFinished.service";
 import {UserPickerPageComponent} from "./userpicker-page.component";
+import {TopicPickerPageComponent} from "./topicpicker-page.component";
 
 @Component({
   selector: 'overview-page',
@@ -85,7 +86,7 @@ export class OverviewPageComponent {
         {
           text: 'Singleplayer',
           handler: () => {
-
+            this.presentTopicPickerModal(false, null);
           }
         }
       ]
@@ -96,6 +97,21 @@ export class OverviewPageComponent {
   presentUserPickerModal(): void{
     let modal = this.modalCtrl.create(UserPickerPageComponent);
     modal.present();
+    modal.onDidDismiss(username => {
+      if(username){
+        this.presentTopicPickerModal(true, username);
+      }
+    });
+  }
+
+  presentTopicPickerModal(isMultiplayer: boolean, username: string): void{
+    let modal = this.modalCtrl.create(TopicPickerPageComponent);
+    modal.present();
+    modal.onDidDismiss(word => {
+      if(word){
+        console.log(word + " " + username);
+      }
+    });
   }
 
   showProfile(): void {

@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      Thema wählen
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="viewCtrl.dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-searchbar [(ngModel)]="searchQuery"
+                 (ionInput)="doSearch()"
+                 (ionClear)="clearSearchbar()"
+                 showCancelButton="true"
+                 (ionCancel)="viewCtrl.dismiss()">
+  </ion-searchbar>
+  <ion-list>
+    <button ion-item text-center
+            *ngFor="let topic of filteredTopics"
+            (click)="returnWordFromTopic(topic)">
+      {{topic}}
+    </button>
+  </ion-list>
+</ion-content>

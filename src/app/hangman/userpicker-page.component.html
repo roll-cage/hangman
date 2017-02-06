@@ -13,9 +13,9 @@
 <ion-content>
   <ion-item-divider color="light">Username des Gegners eingeben:</ion-item-divider>
   <ion-item>
-    <ion-input placeholder="Username" [(ngModel)]="usernameEntered" clearInput></ion-input>
-    <ion-label fixed *ngIf="usernameWrong"
+    <ion-input placeholder="Username" [(ngModel)]="usernameEntered" (keypress)="eventHandler($event.keyCode)" #usernameInput clearInput></ion-input>
+    <ion-label *ngIf="usernameWrong">Nicht gefunden</ion-label>
   </ion-item>
-  <button ion-button block (click)="checkUsername()">Spiel starten</button>
+  <button ion-button block (click)="checkUsername()">Thema wählen</button>
 </ion-content>
 

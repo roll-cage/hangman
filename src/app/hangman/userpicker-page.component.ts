@@ -1,6 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
-import {ViewController, NavParams} from 'ionic-angular';
+import {ViewController} from 'ionic-angular';
 import {UsernamesService} from "./usernames.service";
+import {Keyboard} from "ionic-native";
 
 @Component({
   selector: 'userpicker-page',
@@ -11,12 +12,26 @@ import {UsernamesService} from "./usernames.service";
 export class UserPickerPageComponent {
   usernameEntered: string;
   usernameWrong: boolean = false;
+  @ViewChild('usernameInput') usernameInput ;
   constructor(public viewCtrl: ViewController, private usernamesService: UsernamesService){}
+
+  ionViewDidLoad() {
+    setTimeout(()=>{
+        this.usernameInput.setFocus();
+        Keyboard.show();
+      }, 300);
+  }
+
+  eventHandler(keyCode: number): void{
+    if(keyCode == 13){
+      this.checkUsername();
+    }
+  }
 
   checkUsername(): void{
     if(this.usernamesService.checkUsername(this.usernameEntered)){
       //let player pick topic
-      this.viewCtrl.dismiss();
+      this.viewCtrl.dismiss(this.usernameEntered);
     } else {
       this.usernameWrong = true;
     }

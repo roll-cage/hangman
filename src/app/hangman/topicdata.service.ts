@@ -26,7 +26,7 @@ export class TopicDataService {
 
   getTopicNames(): string[] {
     //if called to early, the topicList is not set. maybe has to be redone
-    let topicNames: string[] = null;
+    let topicNames: string[] = [];
       this.topicList.forEach((topic) => {
         topicNames.push(topic.name);
       });

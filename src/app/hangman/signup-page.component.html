@@ -31,6 +31,17 @@
       <p>Passwort muss mindestens 6 Zeichen haben.</p>
     </ion-item>
 
+
+    <ion-item>
+      <ion-label stacked>Username</ion-label>
+      <ion-input #name formControlName="name" type="text" (change)="elementChanged(name)"
+                 placeholder="Username"
+                 [class.invalid]="!signupForm.controls.name.valid && (nameChanged || submitAttempt)"></ion-input>
+    </ion-item>
+    <ion-item class="error-message" *ngIf="!signupForm.controls.name.valid  && (nameChanged || submitAttempt)">
+      <p>Name brauch mindestens 4 Zeichen</p>
+    </ion-item>
+
     <button ion-button block type="submit">
       Create an Account
     </button>

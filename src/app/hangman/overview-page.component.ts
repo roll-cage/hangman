@@ -14,6 +14,9 @@ import {MPGame} from "./multiplayerGame.model";
 import {MPGameFinishedService} from "./multiplayerGameFinished.service";
 import {UserPickerPageComponent} from "./userpicker-page.component";
 import {TopicPickerPageComponent} from "./topicpicker-page.component";
+import {ProfilePageComponent} from "./profile-page.component";
+
+
 
 @Component({
   selector: 'overview-page',
@@ -115,6 +118,7 @@ export class OverviewPageComponent {
   }
 
   showProfile(): void {
+    this.navCtrl.push(ProfilePageComponent);
   }
 
   deleteGame(game: Game){

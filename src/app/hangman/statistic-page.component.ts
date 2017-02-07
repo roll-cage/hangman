@@ -47,7 +47,6 @@ export class StatisticPageComponent {
     userDataService.findGames().subscribe(
       (games: Game[]) => {
         games.forEach((game) => {
-          console.log(game);
           if (game.singleplayer) {
             if (game.topic != null) {
               if (game.topic in this.topicListSP) {
@@ -93,8 +92,6 @@ export class StatisticPageComponent {
       this.doughnutChartLabelsMP.push(key)
       this.doughnutChartDataMP.push(this.topicListMP[key])
     }
-    console.log(this.doughnutChartDataMP.length)
-    console.log(this.doughnutChartDataMP)
     if(this.doughnutChartDataMP.length == 0) {
       this.doughnutChartLabelsMP.push('Noch keine Spiele')
       this.doughnutChartDataMP.push(0)

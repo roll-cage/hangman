@@ -9,8 +9,9 @@ import {AngularFireModule} from "angularfire2";
 import {UserPickerPageComponent} from "./hangman/userpicker-page.component";
 import {TopicPickerPageComponent} from "./hangman/topicpicker-page.component";
 import {ProfilePageComponent} from "./hangman/profile-page.component";
-
-
+import {StatisticPageComponent} from "./hangman/statistic-page.component";
+import '../../node_modules/chart.js/dist/Chart.bundle.min.js';
+import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyD83ZpeKd7QPOfVebnnex-tpv_pgD0AN6c",
@@ -29,11 +30,13 @@ export const firebaseConfig = {
     SignupPageComponent,
     UserPickerPageComponent,
     TopicPickerPageComponent,
-    ProfilePageComponent
+    ProfilePageComponent,
+    StatisticPageComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp),
-    AngularFireModule.initializeApp(firebaseConfig)
+    AngularFireModule.initializeApp(firebaseConfig),
+    ChartsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -44,7 +47,8 @@ export const firebaseConfig = {
     SignupPageComponent,
     UserPickerPageComponent,
     TopicPickerPageComponent,
-    ProfilePageComponent
+    ProfilePageComponent,
+    StatisticPageComponent
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })

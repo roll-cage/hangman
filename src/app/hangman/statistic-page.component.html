@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      Statistik
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <script src="node_modules/chart.js/src/chart.js"></script>
+
+  <ion-label>Single Player:</ion-label>
+  <div style="display: block">
+    <canvas baseChart
+            [data]="doughnutChartDataSP"
+            [labels]="doughnutChartLabels"
+            [chartType]="doughnutChartType"
+            [colors]="doughnutChartColorsSP"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></canvas>
+  </div>
+  <ion-label>Multi Player:</ion-label>
+  <div style="display: block">
+    <canvas baseChart
+            [data]="doughnutChartDataMP"
+            [labels]="doughnutChartLabels"
+            [chartType]="doughnutChartType"
+            [colors]="doughnutChartColorsMP"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></canvas>
+  </div>
+</ion-content>

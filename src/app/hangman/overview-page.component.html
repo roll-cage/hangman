@@ -16,13 +16,13 @@
 <ion-content>
   <ion-item-group>
     <ion-item-divider color="light">Laufende MP-Spiele</ion-item-divider>
-    <ion-list>
+    <ion-list *ngIf="mpGamesToAccept.length > 0">
         <button ion-item text-wrap *ngFor="let game of mpGamesToAccept"> <!-- add click event -->
           <h2>Herrausforderung von: {{game.opponent}}</h2>
           <p>Thema: {{game.topic}} // Annehmen</p>
         </button>
     </ion-list>
-    <ion-list>
+    <ion-list *ngIf="startedMPGames.length > 0">
       <button ion-item text-wrap *ngFor="let game of startedMPGames">
         <h2>Gegner: {{game.opponentName}} - Thema: {{game.topic}}</h2>
         <p>Falsche Buchstaben: {{game.badChars}} // Warte auf Gegner</p>
@@ -30,7 +30,7 @@
     </ion-list>
     <button ion-item *ngIf="(startedMPGames.length == 0) && (mpGamesToAccept.length == 0)">Keine aktiven MP-Spiele verfügbar</button>
     <ion-item-divider color="light">Vergangene Spiele</ion-item-divider>
-    <ion-list>
+    <ion-list *ngIf="pastGames.length > 0">
       <ion-item-sliding *ngFor="let game of pastGames">
         <button ion-item text-wrap *ngIf="game.singleplayer">
           <h2>SP - Thema: {{game.topic}}</h2>

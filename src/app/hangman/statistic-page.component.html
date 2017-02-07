@@ -9,24 +9,36 @@
 <ion-content padding>
   <script src="node_modules/chart.js/src/chart.js"></script>
 
-  <ion-label>Single Player:</ion-label>
-  <div style="display: block">
-    <canvas baseChart
-            [data]="doughnutChartDataSP"
-            [labels]="doughnutChartLabels"
-            [chartType]="doughnutChartType"
-            [colors]="doughnutChartColorsSP"
-            (chartHover)="chartHovered($event)"
-            (chartClick)="chartClicked($event)"></canvas>
-  </div>
-  <ion-label>Multi Player:</ion-label>
-  <div style="display: block">
-    <canvas baseChart
-            [data]="doughnutChartDataMP"
-            [labels]="doughnutChartLabels"
-            [chartType]="doughnutChartType"
-            [colors]="doughnutChartColorsMP"
-            (chartHover)="chartHovered($event)"
-            (chartClick)="chartClicked($event)"></canvas>
-  </div>
+  <ion-card>
+    <div style="display: block">
+      <canvas baseChart
+              [datasets]="barChartData"
+              [labels]="barChartLabels"
+              [options]="barChartOptions"
+              [legend]="barChartLegend"
+              [colors]="barChartColors"
+              [chartType]="barChartType"></canvas>
+    </div>
+  </ion-card>
+  <ion-card>
+    <ion-label align="center">Single Player:</ion-label>
+    <div style="display: block">
+      <canvas baseChart
+              [data]="doughnutChartDataSP"
+              [labels]="doughnutChartLabelsSP"
+              [chartType]="doughnutChartType"
+              [colors]="doughnutChartColors"></canvas>
+    </div>
+  </ion-card>
+  <ion-card>
+    <ion-label align="center">Multi Player:</ion-label>
+
+    <div style="display: block">
+      <canvas baseChart
+              [data]="doughnutChartDataMP"
+              [labels]="doughnutChartLabelsMP"
+              [chartType]="doughnutChartType"
+              [colors]="doughnutChartColors"></canvas>
+    </div>
+  </ion-card>
 </ion-content>

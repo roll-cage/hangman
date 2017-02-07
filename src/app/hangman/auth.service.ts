@@ -9,7 +9,7 @@ import {UserDataService} from "./userdata.service";
 export class AuthService {
   fireAuth: any;
   user: any;
-  constructor(public af: AngularFire, private data: UserDataService, @Inject(FirebaseApp) fa : any) {
+  constructor(public af: AngularFire, private userData: UserDataService, @Inject(FirebaseApp) fa : any) {
     this.fireAuth = fa.auth;
   }
 
@@ -17,9 +17,9 @@ export class AuthService {
     return Observable.create(observer => {
       this.af.auth.subscribe(authData => {
         if (authData) {
-          this.data.object('users/' + authData.uid).subscribe(userData => {
+          this.userData.object('users/' + authData.uid).subscribe(userData => {
             this.user = userData;
-            observer.next(userData);
+            observer.next(authData);
           });
         } else {
           observer.error();
@@ -35,6 +35,7 @@ export class AuthService {
         provider: AuthProviders.Password,
         method: AuthMethods.Password
       }).then((authData) => {
+        this.userData.initializeService(authData.uid);
         observer.next(authData);
       }).catch((error) => {
         observer.error(error);

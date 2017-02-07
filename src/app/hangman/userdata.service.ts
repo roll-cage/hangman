@@ -10,25 +10,25 @@ export class UserDataService {
   fbUsername: FirebaseObjectObservable<any>;
   games: Observable<Game[]>;
   username: string;
-  constructor(private af: AngularFire) {
-    this.af.auth.subscribe(authData => {
-      if(authData){
-        this.fbGames = this.af.database.list("users/" + authData.uid + "/games");
-        this.fbUsername = this.af.database.object("users/" + authData.uid + "/username", { preserveSnapshot: true });
-        this.fbUsername.subscribe(
-          snapshot => {
-            this.username = snapshot.val();
-          }
-        );
-      }
-    });
-  }
+  constructor(private af: AngularFire) {}
 
   object(path: string): FirebaseObjectObservable<any> {
     return this.af.database.object(path);
   }
 
-  initializeService(): void {
+  initializeService(uid: string): void {
+    this.username = "";
+    this.fbGames = this.af.database.list("users/" + uid + "/games");
+    this.fbUsername = this.af.database.object("users/" + uid + "/username", { preserveSnapshot: true });
+    let subscription = this.fbUsername.subscribe(
+      snapshot => {
+        if(this.username.localeCompare("")==0){
+          this.username = snapshot.val();
+          console.log("username set to " + snapshot.val());
+        }
+        subscription.unsubscribe();
+      }
+    );
     this.games = this.fbGames.map(
       (fbGames: any[]): Game[] => {
         return fbGames.map(

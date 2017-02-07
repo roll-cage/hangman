@@ -33,7 +33,6 @@ export class OverviewPageComponent {
               private usernamesService: UsernamesService, private mpgamestarter: MPGameStarterService,
               private mpGameFinished: MPGameFinishedService, public af: AngularFire){
     //userService.loginUser("hansgjhgkjgjgjgjg@ggmail.com", "password");
-    userDataService.initializeService();
     userDataService.findGames().subscribe(
       (games: Game[])=> {
         this.pastGames = [];
@@ -47,8 +46,12 @@ export class OverviewPageComponent {
         });
       }
     );
+
+    //after logging in the username is not available immediately
+    setTimeout(()=>{
     mpgamestarter.findNewMPGames().subscribe(
       (newMpGames: MPGame[]) => {
+        this.mpGamesToAccept = [];
         newMpGames.forEach((newMpGame) => {
           if(userDataService.getUsername().localeCompare(newMpGame.opponent) == 0){
             this.mpGamesToAccept.push(new MPGame(newMpGame.id, newMpGame.topic, newMpGame.word, newMpGame.badChars, userDataService.getUsername(), newMpGame.username));
@@ -56,7 +59,8 @@ export class OverviewPageComponent {
           }
         });
       }
-    );
+    );}, 300);
+
     mpGameFinished.findFinishedMPGames().subscribe(
       (finishedMpGames: MPGame[]) => {
         finishedMpGames.forEach((finishedMpGame) => {
@@ -112,7 +116,7 @@ export class OverviewPageComponent {
     modal.present();
     modal.onDidDismiss(word => {
       if(word){
-        console.log(word + " " + username);
+        //TODO: start new game from here, hand over all needed information (username, ismultiplayer, word)
       }
     });
   }

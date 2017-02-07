@@ -19,7 +19,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
   isAppInitialized: boolean = false;
 
-  constructor(private platform: Platform, protected auth: AuthService, private usernamesService: UsernamesService) {
+  constructor(private platform: Platform, protected auth: AuthService, private userData: UserDataService) {
     platform.ready().then(() => {
       StatusBar.styleDefault();
       Splashscreen.hide();
@@ -29,6 +29,7 @@ export class MyApp {
     this.platform.ready().then(() => {
       this.auth.getUserData().subscribe(data => {
         if (!this.isAppInitialized) {
+          this.userData.initializeService(data.uid);
           this.nav.setRoot(OverviewPageComponent);
           this.isAppInitialized = true;
         }

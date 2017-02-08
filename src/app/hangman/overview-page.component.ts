@@ -3,7 +3,6 @@ import {NavController, AlertController, ModalController} from "ionic-angular";
 import {AuthService} from "./auth.service";
 import {User} from "./user.model";
 import {UserDataService} from "./userdata.service";
-import {Achievement} from "./achievement.model"
 import {AchievementDataService} from "./achievementdata.service"
 import {Game} from "./game.model";
 import {LoginPageComponent} from "./login-page.component"

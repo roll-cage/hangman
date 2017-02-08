@@ -10,6 +10,7 @@ import {UserPickerPageComponent} from "./hangman/userpicker-page.component";
 import {TopicPickerPageComponent} from "./hangman/topicpicker-page.component";
 import {ProfilePageComponent} from "./hangman/profile-page.component";
 import {StatisticPageComponent} from "./hangman/statistic-page.component";
+import {AchievementPageComponent} from "./hangman/achievement-list-page.component";
 import '../../node_modules/chart.js/dist/Chart.bundle.min.js';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 
@@ -31,7 +32,8 @@ export const firebaseConfig = {
     UserPickerPageComponent,
     TopicPickerPageComponent,
     ProfilePageComponent,
-    StatisticPageComponent
+    StatisticPageComponent,
+    AchievementPageComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -48,7 +50,8 @@ export const firebaseConfig = {
     UserPickerPageComponent,
     TopicPickerPageComponent,
     ProfilePageComponent,
-    StatisticPageComponent
+    StatisticPageComponent,
+    AchievementPageComponent
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })

@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators,FormControl } from '@angular/forms';
 import { AuthService } from './auth.service';
 import { OverviewPageComponent } from './overview-page.component';
+import {UsernamesService} from "./usernames.service";
+
 
 
 @Component({
@@ -15,26 +17,27 @@ export class SignupPageComponent {
   passwordChanged: boolean = false;
   submitAttempt: boolean = false;
   loading: any;
+  static usernamesService:UsernamesService;
 
 
   constructor(public nav: NavController, public authData: AuthService, public formBuilder: FormBuilder,
-              public loadingCtrl: LoadingController, public alertCtrl: AlertController) {
-
+              public loadingCtrl: LoadingController, public alertCtrl: AlertController, public usernamesService:UsernamesService) {
+    SignupPageComponent.usernamesService=this.usernamesService;
     this.signupForm = formBuilder.group({
       'email': ['', [Validators.required, this.emailValidator.bind(this)]],
       'password': ['', Validators.compose([Validators.minLength(6), Validators.required])],
-      'name': ['', [Validators.required, Validators.minLength(4), this.nameValidator.bind(this)]],
+      //TODO Verschiedene Fehlermeldungen
+      'name': ['', [Validators.compose([Validators.required, Validators.minLength(4)]), this.nameValidator.bind(this)],SignupPageComponent.checkUsername],
     })
   }
 
-  //TODO auch für login
   nameValidator(control: FormControl): {[s: string]: boolean} {
-    if (!control.value.match("^[a-zA-Z ,.'-]+$")) {
+    if (!control.value.match("^[0-9a-zA-Z,.'-]+$")) {
       return {invalidName: true};
     }
 }
   emailValidator(control: FormControl): {[s: string]: boolean} {
-    if (!(control.value.toLowerCase().match('^\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,3}$') || control.value.toLowerCase().match('^[a-zA-Z]\\w*@yahoo\\.com$'))) {
+    if (!(control.value.toLowerCase().match('^\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,3}$'))) {
       return {invalidEmail: true};
     }
   }
@@ -76,4 +79,24 @@ export class SignupPageComponent {
       });
     }
   }
+  static checkUsername(control: FormControl,usernamesService: UsernamesService): any {
+
+    return new Promise(resolve => {
+
+      setTimeout(() => {
+        if(SignupPageComponent.usernamesService.checkUsername(control.value.toLowerCase())){
+          resolve({
+            "username taken": true
+          });
+        } else {
+          resolve(null);
+        }
+      }, 1000);
+
+    });
+  }
 }
+
+
+
+

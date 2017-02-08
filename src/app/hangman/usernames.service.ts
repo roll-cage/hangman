@@ -7,15 +7,22 @@ export class UsernamesService {
   fbUsernames: FirebaseObjectObservable<any>;
   usernames: Observable<string[]>;
   usernamesList: string[] = [];
+  lowercase: string[] = [];
 
   constructor(private af: AngularFire) {
     this.fbUsernames = af.database.object('/usernames', { preserveSnapshot: true });
     this.fbUsernames.subscribe(
       snapshot => {
         this.usernamesList = snapshot.val();
+        this.lowercase=this.usernamesList.join('|').toLowerCase().split('|');
       }
     );
   }
+
+  findUsernames(): FirebaseObjectObservable<any>{
+    return this.fbUsernames;
+  }
+
   public addUsername(username: string){
     let newUsernames = this.usernamesList;
     newUsernames.push(username);
@@ -28,6 +35,6 @@ export class UsernamesService {
   }
 
   public checkUsername(username: string): boolean{
-    return (this.usernamesList.indexOf(username) !== -1);
+    return (this.lowercase.indexOf(username) !== -1);
   }
 }

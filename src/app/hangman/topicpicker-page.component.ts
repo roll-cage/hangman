@@ -37,6 +37,10 @@ export class TopicPickerPageComponent {
     this.filteredTopics = this.topics;
   }
   returnWordFromTopic(topic: string): void{
-    this.viewCtrl.dismiss(this.topicDataService.getWordFromTopic(topic));
+    let data={
+      word:this.topicDataService.getWordFromTopic(topic),
+      topic:topic
+    };
+    this.viewCtrl.dismiss(data);
   }
 }

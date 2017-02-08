@@ -104,19 +104,22 @@ export class OverviewPageComponent {
   presentUserPickerModal(): void{
     let modal = this.modalCtrl.create(UserPickerPageComponent);
     modal.present();
-    modal.onDidDismiss(username => {
-      if(username){
-        this.presentTopicPickerModal(true, username);
+    modal.onDidDismiss(opponentName => {
+      if(opponentName){
+        this.presentTopicPickerModal(true, opponentName);
       }
     });
   }
 
-  presentTopicPickerModal(isMultiplayer: boolean, username: string): void{
+  presentTopicPickerModal(isMultiplayer: boolean, opponentName: string): void{
     let modal = this.modalCtrl.create(TopicPickerPageComponent);
     modal.present();
-    modal.onDidDismiss(word => {
-      if(word){
+    modal.onDidDismiss(data => {
+      if(data.word){
         //TODO: start new game from here, hand over all needed information (username, ismultiplayer, word)
+        this.mpgamestarter.addNewMPGame(new Game(null,data.topic,data.word,0,false,opponentName,0));
+
+        //this.navCtrl.push(GamePage,data...);
       }
     });
   }

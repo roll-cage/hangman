@@ -5,9 +5,6 @@ import {
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from './auth.service';
-//import {OverviewPageComponent} from "./overview-page.component";
-//import { SignupPageComponent } from './signup-page.component';
-//import { ResetPasswordPageComponent } from './resetpassword-page.component';
 import {UserDataService} from "./userdata.service";
 import {StatisticPageComponent} from "./statistic-page.component";
 

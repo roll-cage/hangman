@@ -3,7 +3,7 @@ import {
   LoadingController,
   AlertController } from 'ionic-angular';
 import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators,FormControl } from '@angular/forms';
 import { AuthService } from './auth.service';
 import {OverviewPageComponent} from "./overview-page.component";
 import { SignupPageComponent } from './signup-page.component';
@@ -28,9 +28,15 @@ export class LoginPageComponent {
 
 
     this.loginForm = formBuilder.group({
-      email: ['', Validators.compose([Validators.required])],
+      email: ['', [Validators.required, this.emailValidator.bind(this)]],
       password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
     });
+  }
+
+  emailValidator(control: FormControl): {[s: string]: boolean} {
+    if (!(control.value.toLowerCase().match('^\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,3}$'))) {
+      return {invalidEmail: true};
+    }
   }
 
   elementChanged(input){

@@ -38,9 +38,17 @@
                  placeholder="Username"
                  [class.invalid]="!signupForm.controls.name.valid && (nameChanged || submitAttempt)"></ion-input>
     </ion-item>
-    <ion-item class="error-message" *ngIf="!signupForm.controls.name.valid  && (nameChanged || submitAttempt)">
-      <p>Name brauch mindestens 4 Zeichen</p>
+
+    <ion-item *ngIf="signupForm.controls.name.pending">
+      <p>Checking username...</p>
     </ion-item>
+
+
+    <ion-item *ngIf="!signupForm.controls.name.valid && !signupForm.controls.name.pending && (signupForm.controls.name.dirty || submitAttempt)">
+      <p>Name zu kurz, oder schon in benutzung</p>
+    </ion-item>
+
+
 
     <button ion-button block type="submit">
       Create an Account

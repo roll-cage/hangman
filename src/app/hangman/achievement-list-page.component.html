@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-navbar color="primary" *ngIf="isSearching == false">
+    <ion-title>
+      Errungenschaften
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="showAchievs()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons>
+    </ion-navbar>
+    <ion-navbar *ngIf="isSearching">
+      <ion-searchbar [(ngModel)]="searchQuery"
+                     (ionInput)="doSearch()"
+                     (ionClear)="clearSearchbar()"
+                     showCancelButton="true"
+                     (ionCancel)="cancel()">
+      </ion-searchbar>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let achiev of filteredAchievs">
+      <h2>{{achiev.title}}</h2>
+      <p>{{achiev.text}}</p>
+      <button ion-button outline item-right icon-left>
+        <ion-icon name="md-medal"></ion-icon>
+        <h2>{{achiev.points}}</h2>
+      </button>
+    </ion-item>
+  </ion-list>
+</ion-content>

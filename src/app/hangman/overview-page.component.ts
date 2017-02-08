@@ -3,9 +3,10 @@ import {NavController, AlertController, ModalController} from "ionic-angular";
 import {AuthService} from "./auth.service";
 import {User} from "./user.model";
 import {UserDataService} from "./userdata.service";
+import {AchievementDataService} from "./achievementdata.service"
 import {Game} from "./game.model";
 import {LoginPageComponent} from "./login-page.component"
-import {Topic} from "./topic.model";
+//import {Topic} from "./topic.model";
 import {AngularFire} from "angularfire2";
 import {TopicDataService} from "./topicdata.service";
 import {UsernamesService} from "./usernames.service";
@@ -15,8 +16,6 @@ import {MPGameFinishedService} from "./multiplayerGameFinished.service";
 import {UserPickerPageComponent} from "./userpicker-page.component";
 import {TopicPickerPageComponent} from "./topicpicker-page.component";
 import {ProfilePageComponent} from "./profile-page.component";
-
-
 
 @Component({
   selector: 'overview-page',
@@ -31,7 +30,8 @@ export class OverviewPageComponent {
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, public modalCtrl: ModalController,
               private userService: AuthService, private userDataService: UserDataService, private tds: TopicDataService,
               private usernamesService: UsernamesService, private mpgamestarter: MPGameStarterService,
-              private mpGameFinished: MPGameFinishedService, public af: AngularFire){
+              private mpGameFinished: MPGameFinishedService, public af: AngularFire,
+              private achievementDataService: AchievementDataService){
     //userService.loginUser("hansgjhgkjgjgjgjg@ggmail.com", "password");
     userDataService.findGames().subscribe(
       (games: Game[])=> {
@@ -76,7 +76,13 @@ export class OverviewPageComponent {
     );
     //mpgamestarter.addNewMPGame(new Game(null, "Tiere", "Koalabaer", 3, false, "testuser", null));
     /*let tiere: string[] = ["Elefant", "Koalabaer", "Galapagosschildkröte"];
-     tds.persistGame(new Topic(null, "Tiere", tiere));*/
+
+    tds.persist(new Topic(null, "Tiere", tiere));*/
+    /**achievementDataService.persist(new Achievement(null, "10 Siege", "Gewinne 10 Spiele in einem beliebigen Modus!", 10));
+    achievementDataService.persist(new Achievement(null, "100 Siege", "Gewinne 100 Spiele in einem beliebigen Modus!", 100));
+    achievementDataService.persist(new Achievement(null, "50 Siege im SP", "Gewinne 50 Spiele im Single Player Modus!", 30));
+    achievementDataService.persist(new Achievement(null, "50 Siege im MP", "Gewinne 50 Spiele im Multi Player Modus!", 30));
+    achievementDataService.persist(new Achievement(null, "Spiel ohne Fehler", "Gewinne ein Spiel ohne einen Falschen Buchstaben!", 80));*/
   }
 
   chooseGameMode(): void {

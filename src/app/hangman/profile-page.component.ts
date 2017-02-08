@@ -3,10 +3,11 @@ import {
   LoadingController,
   AlertController } from 'ionic-angular';
 import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { AuthService } from './auth.service';
 import {UserDataService} from "./userdata.service";
 import {StatisticPageComponent} from "./statistic-page.component";
+import {AchievementPageComponent} from "./achievement-list-page.component";
 
 @Component({
   selector: 'profile-page',
@@ -21,7 +22,7 @@ export class ProfilePageComponent {
   }
 
   goToAchievements(){
-
+    this.nav.push(AchievementPageComponent);
   }
   goToStats(){
     this.nav.push(StatisticPageComponent);

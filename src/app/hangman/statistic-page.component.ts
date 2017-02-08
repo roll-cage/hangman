@@ -11,39 +11,39 @@ import {Game} from "./game.model";
 })
 export class StatisticPageComponent {
   // counter for wins/losses
-  private sp_wins: number = 0;
-  private sp_losses: number = 0;
-  private mp_wins: number = 0;
-  private mp_losses: number = 0;
+  sp_wins: number = 0;
+  sp_losses: number = 0;
+  mp_wins: number = 0;
+  mp_losses: number = 0;
 
   // dictionaries for saving topicName and their recpective amounts
-  private topicListSP: {[tName: string]: number;} = {}
-  private topicListMP: {[tName: string]: number;} = {}
+  topicListSP: {[tName: string]: number;} = {}
+  topicListMP: {[tName: string]: number;} = {}
 
   // Bar Charts
-  private barChartOptions: any = {
+  barChartOptions: any = {
     scaleShowVerticalLines: false,
     responsive: true
   };
-  private barChartLabels: string[] = ['SinglePlayer', 'MultiPlayer'];
-  private barChartType: string = 'bar';
-  private barChartLegend: boolean = true;
-  private barChartData: any[] = [];
-  private barChartColors: any[] = [{backgroundColor: ["#fd4545", "#969696"]}];
+  barChartLabels: string[] = ['SinglePlayer', 'MultiPlayer'];
+  barChartType: string = 'bar';
+  barChartLegend: boolean = true;
+  barChartData: any[] = [];
+  barChartColors: any[] = [{backgroundColor: ["#fd4545", "#969696"]}];
 
   // Doughnut Charts
-  private doughnutChartType: string = 'doughnut';
+  doughnutChartType: string = 'doughnut';
   // some random colors generated for 12 different topics
-  private doughnutChartColors: any[] =  [{backgroundColor: ["#7a9efa", "#b698b2", "#94dde7", "#0db59e",
-                                                            "#f586ed", "#f586ed", "#45a73a", "#d1e734",
+  doughnutChartColors: any[] =  [{backgroundColor: ["#7a9efa", "#b698b2", "#94dde7", "#0db59e",
+                                                            "#f586ad", "#f586ed", "#45a73a", "#d1e734",
                                                             "#7a9efa", "#a85903", "#64da85", "#ccc67b"]}];
 
   // Single Player (initialized later)
-  private doughnutChartLabelsSP: string[] = [];
-  private doughnutChartDataSP: number[] = [];
+  doughnutChartLabelsSP: string[] = [];
+  doughnutChartDataSP: number[] = [];
   // Multi Player (initialized later)
-  private doughnutChartDataMP: number[] = [];
-  private doughnutChartLabelsMP: string[] = [];
+  doughnutChartDataMP: number[] = [];
+  doughnutChartLabelsMP: string[] = [];
 
   constructor(private userDataService: UserDataService, public nav: NavController, public alertCtrl: AlertController) {
     userDataService.findGames().subscribe(                // iterate over all games of user

@@ -66,7 +66,7 @@ export class OverviewPageComponent {
         finishedMpGames.forEach((finishedMpGame) => {
           this.startedMPGames.forEach((startedMPGame) => {
             if(startedMPGame.id.localeCompare(finishedMpGame.id) == 0){
-              userDataService.update(new Game(startedMPGame.id, startedMPGame.topic, startedMPGame.word,
+              userDataService.updateGame(new Game(startedMPGame.id, startedMPGame.topic, startedMPGame.word,
                 startedMPGame.badChars, false, startedMPGame.opponentName, finishedMpGame.badChars));
               mpGameFinished.deleteFinishedMPGame(startedMPGame.id);
             }
@@ -76,7 +76,7 @@ export class OverviewPageComponent {
     );
     //mpgamestarter.addNewMPGame(new Game(null, "Tiere", "Koalabaer", 3, false, "testuser", null));
     /*let tiere: string[] = ["Elefant", "Koalabaer", "Galapagosschildkröte"];
-    tds.persist(new Topic(null, "Tiere", tiere));*/
+     tds.persistGame(new Topic(null, "Tiere", tiere));*/
   }
 
   chooseGameMode(): void {
@@ -117,7 +117,8 @@ export class OverviewPageComponent {
     modal.onDidDismiss(data => {
       if(data.word){
         //TODO: start new game from here, hand over all needed information (username, ismultiplayer, word)
-        this.mpgamestarter.addNewMPGame(new Game(null,data.topic,data.word,0,false,opponentName,0));
+        // don't add newMpGame to Firebase yet, not until game is finished and all information are available
+        // this.mpgamestarter.addNewMPGame(new Game(null,data.topic,data.word,0,false,opponentName,0));
 
         //this.navCtrl.push(GamePage,data...);
       }
@@ -128,8 +129,8 @@ export class OverviewPageComponent {
     this.navCtrl.push(ProfilePageComponent);
   }
 
-  deleteGame(game: Game){
-    this.userDataService.delete(game.id);
+  deleteGame(game: Game): void{
+    this.userDataService.deleteGame(game);
   }
 
   logOut(){

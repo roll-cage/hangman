@@ -24,7 +24,6 @@ export class UserDataService {
       snapshot => {
         if(this.username.localeCompare("")==0){
           this.username = snapshot.val();
-          console.log("username set to " + snapshot.val());
         }
         subscription.unsubscribe();
       }
@@ -33,7 +32,9 @@ export class UserDataService {
       (fbGames: any[]): Game[] => {
         return fbGames.map(
           fbItem => {
-            return new Game(fbItem.$key, fbItem.topic, fbItem.word, fbItem.badChars, fbItem.singleplayer, fbItem.opponentName, fbItem.badCharsOpponent);
+            let newGame = new Game(fbItem.$key, fbItem.topic, fbItem.word, fbItem.badChars, fbItem.singleplayer, fbItem.opponentName, fbItem.badCharsOpponent);
+            newGame.visible = fbItem.visible;
+            return newGame;
           })
       });
   }
@@ -46,14 +47,19 @@ export class UserDataService {
     return this.games;
   }
 
-  persist(game: Game): string {
+  persistGame(game: Game): string {
     return this.fbGames.push(game).key;
   }
 
-  delete(id: any): void {
-    this.fbGames.remove(id);
+  deleteGame(game: Game): void {
+    game.visible = false;
+    if(game.singleplayer){
+      game.opponentName = null;
+      game.badCharsOpponent = null;
+    }
+    this.fbGames.update(game.id, game);
   }
-  update(game: Game): void {
+  updateGame(game: Game): void {
     this.fbGames.update(game.id, game);
   }
 }

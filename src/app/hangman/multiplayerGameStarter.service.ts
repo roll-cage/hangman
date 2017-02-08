@@ -25,7 +25,7 @@ export class MPGameStarterService {
     return this.newMPGames;
   }
   addNewMPGame(game: Game): void{
-    let gameId = this.userdataService.persist(game);
+    let gameId = this.userdataService.persistGame(game);
     this.af.database.object("/newMPGames/" + gameId).set(new MPGame(null, game.topic, game.word, game.badChars, this.userdataService.getUsername(), game.opponentName));
   }
   deleteFinishedMPGame(gameId: string): void{

@@ -1,10 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title *ngIf="!isMultiplayer">
+      Einzelspieler
+    </ion-title>
+    <ion-title *ngIf="isMultiplayer">
+      Spiel gegen {{oponentName}}
+    </ion-title>
+  </ion-navbar>
+</ion-header>
 
-</body>
-</html>
+<ion-content padding>
+  <img *ngIf="foundWrongLetters==0" src="./images/{{foundWrongLetters}}.png" alt="">
+  <img *ngIf="foundWrongLetters==1" src="./images/{{foundWrongLetters}}.png" alt="">
+  <img *ngIf="foundWrongLetters==2" src="./images/{{foundWrongLetters}}.png" alt="">
+  <img *ngIf="foundWrongLetters==3" src="./images/{{foundWrongLetters}}.png" alt="">
+  <img *ngIf="foundWrongLetters==4" src="./images/{{foundWrongLetters}}.png" alt="">
+  <img *ngIf="foundWrongLetters==5" src="./images/{{foundWrongLetters}}.png" alt="">
+  <img *ngIf="foundWrongLetters==6" src="./images/{{foundWrongLetters}}.png" alt="">
+<br>
+  <button ion-button *ngFor="let letter of word;let i=index">
+  <p *ngIf="letter.found">{{letter.is}}</p>
+    <p *ngIf="!letter.found">_</p>
+  </button>
+  <br>
+  <button ion-button small *ngFor="let letter of letters;let i=index" disabled={{letter.disabled}} (click)="press(letter)">
+    {{letter.is}}
+  </button>
+</ion-content>

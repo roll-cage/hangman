@@ -13,6 +13,8 @@ import {StatisticPageComponent} from "./hangman/statistic-page.component";
 import {AchievementPageComponent} from "./hangman/achievement-list-page.component";
 import '../../node_modules/chart.js/dist/Chart.bundle.min.js';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
+import {GamePageComponent} from "./hangman/game-page.component";
+
 
 export const firebaseConfig = {
   apiKey: "AIzaSyD83ZpeKd7QPOfVebnnex-tpv_pgD0AN6c",
@@ -33,7 +35,8 @@ export const firebaseConfig = {
     TopicPickerPageComponent,
     ProfilePageComponent,
     StatisticPageComponent,
-    AchievementPageComponent
+    AchievementPageComponent,
+    GamePageComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -51,7 +54,8 @@ export const firebaseConfig = {
     TopicPickerPageComponent,
     ProfilePageComponent,
     StatisticPageComponent,
-    AchievementPageComponent
+    AchievementPageComponent,
+    GamePageComponent
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })

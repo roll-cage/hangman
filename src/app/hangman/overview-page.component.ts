@@ -16,6 +16,8 @@ import {MPGameFinishedService} from "./multiplayerGameFinished.service";
 import {UserPickerPageComponent} from "./userpicker-page.component";
 import {TopicPickerPageComponent} from "./topicpicker-page.component";
 import {ProfilePageComponent} from "./profile-page.component";
+import {GamePageComponent} from "./game-page.component";
+
 
 @Component({
   selector: 'overview-page',
@@ -125,8 +127,12 @@ export class OverviewPageComponent {
         //TODO: start new game from here, hand over all needed information (username, ismultiplayer, word)
         // don't add newMpGame to Firebase yet, not until game is finished and all information are available
         // this.mpgamestarter.addNewMPGame(new Game(null,data.topic,data.word,0,false,opponentName,0));
-
-        //this.navCtrl.push(GamePage,data...);
+        let gameData={
+          isMultiplayer:isMultiplayer,
+          word:data.word,
+          opponentName:opponentName
+        };
+        this.navCtrl.push(GamePageComponent,gameData);
       }
     });
   }

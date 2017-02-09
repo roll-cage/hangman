@@ -63,7 +63,7 @@ export class UserDataService {
     return this.achievs;
   }
 
-  persist(game: Game): string {
+  persistGame(game: Game): string {
     return this.fbGames.push(game).key;
   }
 

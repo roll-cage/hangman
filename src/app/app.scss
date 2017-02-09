@@ -4,6 +4,18 @@
   background-color: #ed5e5e;
 }
 
+.center {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.img {
+  height: 180px;
+  width: 180px;
+  object-fit: contain;
+}
+
 login-page {
   form {
     margin-bottom: 32px;

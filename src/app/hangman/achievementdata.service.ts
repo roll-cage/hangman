@@ -18,10 +18,20 @@ export class AchievementDataService {
             return new Achievement(fbItem.$key, fbItem.title, fbItem.text, fbItem.points);
           })
       });
+    this.achievs.subscribe(
+      (achiev: Achievement[])=> {
+        this.achievList = achiev;
+      }
+    );
   }
 
   findAchievs(): Observable<Achievement[]> {
     return this.achievs;
+  }
+
+  findAchievByID(id: string): Achievement {
+
+    return this.achievList.filter(x => x.id == id)[0];
   }
 
   persist(achiev: Achievement): void {

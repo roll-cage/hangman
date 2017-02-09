@@ -12,7 +12,7 @@
 -->
 <ion-content padding>
   <div *ngFor="let path of imagePath">
-  <img class="gameImage" *ngIf="foundWrongLetters==path" src="./images/{{foundWrongLetters}}.png">
+  <img class="gameImage" *ngIf="foundWrongLetters==path" src="./images/{{path}}.png">
   </div>
 <br>
   <p *ngIf="gameOver">Game Over</p>

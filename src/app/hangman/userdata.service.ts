@@ -7,9 +7,12 @@ import {FirebaseListObservable, FirebaseObjectObservable, AngularFire} from "ang
 @Injectable()
 export class UserDataService {
   fbGames: FirebaseListObservable<any[]>;
+  fbAchievs: FirebaseListObservable<any[]>;
   fbUsername: FirebaseObjectObservable<any>;
   games: Observable<Game[]>;
+  achievs: Observable<string[]>;
   username: string;
+
   constructor(private af: AngularFire) {}
 
   object(path: string): FirebaseObjectObservable<any> {
@@ -19,6 +22,7 @@ export class UserDataService {
   initializeService(uid: string): void {
     this.username = "";
     this.fbGames = this.af.database.list("users/" + uid + "/games");
+    this.fbAchievs = this.af.database.list("users/" + uid + "/achievements");
     this.fbUsername = this.af.database.object("users/" + uid + "/username", { preserveSnapshot: true });
     let subscription = this.fbUsername.subscribe(
       snapshot => {
@@ -36,6 +40,13 @@ export class UserDataService {
             return new Game(fbItem.$key, fbItem.topic, fbItem.word, fbItem.badChars, fbItem.singleplayer, fbItem.opponentName, fbItem.badCharsOpponent);
           })
       });
+    this.achievs = this.fbAchievs.map(
+      (fbAchievs: any[]): string[] => {
+        return fbAchievs.map(
+          fbItem => {
+            return fbItem.$key;
+          })
+      });
   }
 
   getUsername(): string{
@@ -44,6 +55,11 @@ export class UserDataService {
 
   findGames(): Observable<Game[]> {
     return this.games;
+  }
+
+  findAchievIDs(): Observable<string[]> {
+    console.log(this.achievs)
+    return this.achievs;
   }
 
   persist(game: Game): string {

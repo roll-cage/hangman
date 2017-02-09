@@ -17,7 +17,10 @@ export class GamePageComponent {
   foundWrongLetters:number;
   maxtrys:number;
   imagepath:string;
-
+  gameOver:boolean=false;
+  gameWon:boolean=false;
+  imagePath:number[]=[0,1,2,3,4,5,6,7,8,9,10];
+  
   constructor(public navParams:NavParams, public navCtrl:NavController, public authData:AuthService, public formBuilder:FormBuilder,
               public alertCtrl:AlertController, public loadingCtrl:LoadingController) {
     this.isMultiplayer = navParams.data.isMultiplayer;
@@ -33,7 +36,7 @@ export class GamePageComponent {
       this.letters.push({is:letter,disabled:null});
     });
     this.foundMatchingLetters=0;
-    this.maxtrys=5;
+    this.maxtrys=8;
     this.foundWrongLetters=0;
 
   }
@@ -57,10 +60,17 @@ export class GamePageComponent {
 
 
     if(this.foundMatchingLetters>=this.word.length){
-      console.log("Gewonnen")
+      this.endGame(true);
     }
     if(this.foundWrongLetters>=this.maxtrys){
-      console.log("Verloren")
+      this.endGame(false);
     }
+  }
+  endGame(won:boolean){
+    this.letters.forEach(letter=>{
+      letter.disabled=true;
+    });
+    if(won) this.gameWon=true;
+    else this.gameOver=true;
   }
 }

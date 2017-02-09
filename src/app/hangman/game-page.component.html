@@ -8,16 +8,15 @@
     </ion-title>
   </ion-navbar>
 </ion-header>
-
+<!--TODO Smooth Image change
+-->
 <ion-content padding>
-  <img *ngIf="foundWrongLetters==0" src="./images/{{foundWrongLetters}}.png" alt="">
-  <img *ngIf="foundWrongLetters==1" src="./images/{{foundWrongLetters}}.png" alt="">
-  <img *ngIf="foundWrongLetters==2" src="./images/{{foundWrongLetters}}.png" alt="">
-  <img *ngIf="foundWrongLetters==3" src="./images/{{foundWrongLetters}}.png" alt="">
-  <img *ngIf="foundWrongLetters==4" src="./images/{{foundWrongLetters}}.png" alt="">
-  <img *ngIf="foundWrongLetters==5" src="./images/{{foundWrongLetters}}.png" alt="">
-  <img *ngIf="foundWrongLetters==6" src="./images/{{foundWrongLetters}}.png" alt="">
+  <div *ngFor="let path of imagePath">
+  <img class="gameImage" *ngIf="foundWrongLetters==path" src="./images/{{foundWrongLetters}}.png">
+  </div>
 <br>
+  <p *ngIf="gameOver">Game Over</p>
+  <p *ngIf="gameWon">Gewonnen</p>
   <button ion-button *ngFor="let letter of word;let i=index">
   <p *ngIf="letter.found">{{letter.is}}</p>
     <p *ngIf="!letter.found">_</p>

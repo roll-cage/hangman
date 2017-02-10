@@ -11,18 +11,24 @@
 <!--TODO Smooth Image change
 -->
 <ion-content padding>
-  <div *ngFor="let path of imagePath">
-  <img class="gameImage" *ngIf="foundWrongLetters==path" src="./images/{{path}}.png">
-  </div>
-<br>
-  <p *ngIf="gameOver">Game Over</p>
-  <p *ngIf="gameWon">Gewonnen</p>
-  <button ion-button *ngFor="let letter of word;let i=index">
-  <p *ngIf="letter.found">{{letter.is}}</p>
-    <p *ngIf="!letter.found">_</p>
-  </button>
+  <ion-card>
+    <div *ngFor="let path of imagePath">
+    <img class="gameImage" *ngIf="foundWrongLetters==path" src="./images/{{path}}.png">
+    </div>
+  </ion-card>
   <br>
-  <button ion-button small *ngFor="let letter of letters;let i=index" disabled={{letter.disabled}} (click)="press(letter)">
-    {{letter.is}}
-  </button>
+  <ion-item-divider color="darkgrey" align="center" *ngIf="gameOver">Game Over</ion-item-divider>
+  <ion-item-divider color="primary" align="center" *ngIf="gameWon">Gewonnen</ion-item-divider>
+
+  <ion-card align="center">
+    <button ion-button outline color="lightgrey" *ngFor="let letter of word;let i=index">
+      <p *ngIf="letter.found">{{letter.is}}</p>
+      <p *ngIf="!letter.found">_</p>
+    </button>
+  </ion-card>
+  <ion-card>
+    <button ion-button small *ngFor="let letter of letters;let i=index" disabled={{letter.disabled}} (click)="press(letter)">
+      {{letter.is}}
+    </button>
+  </ion-card>
 </ion-content>

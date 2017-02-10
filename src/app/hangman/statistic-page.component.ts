@@ -59,7 +59,7 @@ export class StatisticPageComponent {
             this.topicListSP[game.topic] = 1;         // else create new record in dict
           }
         }
-        if (game.badChars <= 9) {                     // convention: loss at > 9
+        if (game.badChars < 10) {                     // convention: loss at >= 10
           this.sp_wins++;
         } else {
           this.sp_losses++;

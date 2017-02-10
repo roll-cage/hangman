@@ -133,6 +133,7 @@ export class OverviewPageComponent {
         let gameData={
           isMultiplayer:isMultiplayer,
           word:data.word,
+          topic:data.topic,
           opponentName:opponentName
         };
         this.navCtrl.push(GamePageComponent,gameData);

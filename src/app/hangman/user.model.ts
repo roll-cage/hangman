@@ -1,5 +1,4 @@
 import {Game} from "./game.model";
-import {Achievement} from "./achievement.model";
 
 export class User {
   name: string;

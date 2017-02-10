@@ -10,6 +10,7 @@ import {Game} from "./game.model";
   templateUrl: 'statistic-page.component.html',
 })
 export class StatisticPageComponent {
+  games: Game[] = [];
   // counter for wins/losses
   sp_wins: number = 0;
   sp_losses: number = 0;
@@ -46,41 +47,40 @@ export class StatisticPageComponent {
   doughnutChartLabelsMP: string[] = [];
 
   constructor(private userDataService: UserDataService, public nav: NavController, public alertCtrl: AlertController) {
-    userDataService.findGames().subscribe(                // iterate over all games of user
-      (games: Game[]) => {
-        games.forEach((game) => {
-          if (game.singleplayer) {                        // SinglePlayer
-            if (game.topic != null) {                     // topic=undefined -> invalid
-              if (game.topic in this.topicListSP) {
-                this.topicListSP[game.topic]++;           // if topic exists increment
-              } else {
-                this.topicListSP[game.topic] = 1;         // else create new record in dict
-              }
-            }
-            if (game.badChars <= 9) {                     // convention: loss at > 9
-              this.sp_wins++;
-            } else {
-              this.sp_losses++;
-            }
-          } else if (game.badCharsOpponent != null) {     // MultiPlayer (only if badChars != null the game is finished)
-            if (game.topic != null) {                     // topic=undefined -> invalid
-              if (game.topic in this.topicListMP) {
-                this.topicListMP[game.topic]++;           // if topic exists increment
-              } else {
-                this.topicListMP[game.topic] = 1;         // else create new record in dict
-              }
-              if (game.badChars < game.badCharsOpponent) {// if your badChars < opponent.badChars -> win
-                this.mp_wins++;
-              } else {
-                this.mp_losses++;
-              }
-            }
-          }
-        });
-      }
+    userDataService.findGames().subscribe(
+      (games: Game[]) => { this.games = games; }
     );
+    this.games.forEach((game) => {
+      if (game.singleplayer) {                        // SinglePlayer
+        if (game.topic != null) {                     // topic=undefined -> invalid
+          if (game.topic in this.topicListSP) {
+            this.topicListSP[game.topic]++;           // if topic exists increment
+          } else {
+            this.topicListSP[game.topic] = 1;         // else create new record in dict
+          }
+        }
+        if (game.badChars <= 9) {                     // convention: loss at > 9
+          this.sp_wins++;
+        } else {
+          this.sp_losses++;
+        }
+      } else if (game.badCharsOpponent != null) {     // MultiPlayer (only if badChars != null the game is finished)
+        if (game.topic != null) {                     // topic=undefined -> invalid
+          if (game.topic in this.topicListMP) {
+            this.topicListMP[game.topic]++;           // if topic exists increment
+          } else {
+            this.topicListMP[game.topic] = 1;         // else create new record in dict
+          }
+          if (game.badChars < game.badCharsOpponent) {// if your badChars < opponent.badChars -> win
+            this.mp_wins++;
+          } else {
+            this.mp_losses++;
+          }
+        }
+      }
+    });
 
-    this.barChartData = [                                         // load countet wins/losses into barChart
+    this.barChartData = [                                         // load counted wins/losses into barChart
       {data: [this.sp_wins, this.mp_wins], label: 'Siege'},
       {data: [this.sp_losses, this.mp_losses], label: 'Niederlagen'}
     ];

@@ -8,7 +8,7 @@
 
 <ion-content padding>
   <script src="node_modules/chart.js/src/chart.js"></script>
-
+  <ion-item-divider color="darkgrey" align="center">Siege/Niederlagen Übersicht</ion-item-divider>
   <ion-card>
     <div style="display: block">
       <canvas baseChart
@@ -20,8 +20,10 @@
               [chartType]="barChartType"></canvas>
     </div>
   </ion-card>
+  <ion-item-divider></ion-item-divider>
+  <ion-item-divider color="darkgrey" align="center">Gespielte Themen</ion-item-divider>
   <ion-card>
-    <ion-label align="center">Single Player:</ion-label>
+    <ion-label align="left">Single Player:</ion-label>
     <div style="display: block">
       <canvas baseChart
               [data]="doughnutChartDataSP"
@@ -31,7 +33,7 @@
     </div>
   </ion-card>
   <ion-card>
-    <ion-label align="center">Multi Player:</ion-label>
+    <ion-label align="left">Multi Player:</ion-label>
 
     <div style="display: block">
       <canvas baseChart

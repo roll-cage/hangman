@@ -127,12 +127,13 @@ export class OverviewPageComponent {
     let modal = this.modalCtrl.create(TopicPickerPageComponent);
     modal.present();
     modal.onDidDismiss(data => {
-      if(data.word){
+      if(data){
         //TODO: start new game from here, hand over all needed information (username, ismultiplayer, word)
         // don't add newMpGame to Firebase yet, not until game is finished and all information are available
         // this.mpgamestarter.addNewMPGame(new Game(null,data.topic,data.word,0,false,opponentName,0));
         let gameData={
           isMultiplayer:isMultiplayer,
+          isStarter: true,
           word:data.word,
           topic:data.topic,
           opponentName:opponentName
@@ -140,6 +141,15 @@ export class OverviewPageComponent {
         this.navCtrl.push(GamePageComponent,gameData);
       }
     });
+  }
+
+  startMPChallengedGame(mpGame: MPGame): void{
+    let gameData={
+      isMultiplayer: true,
+      isStarter: false,
+      mpGame: mpGame
+    };
+    this.navCtrl.push(GamePageComponent, gameData);
   }
 
   showProfile(): void {

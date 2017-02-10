@@ -4,16 +4,20 @@ import {FormBuilder} from "@angular/forms";
 import {AuthService} from "./auth.service";
 import {UserDataService} from "./userdata.service";
 import {Game} from "./game.model";
+import {MPGameStarterService} from "./multiplayerGameStarter.service";
+import {MPGameFinishedService} from "./multiplayerGameFinished.service";
+import {MPGame} from "./multiplayerGame.model";
 
 @Component({
   selector: 'game-page',
   templateUrl: 'game-page.component.html',
 })
 export class GamePageComponent {
-  uds:UserDataService;
   topic: string;
   word: string;
   isMultiplayer:boolean;
+  isStarter: boolean;
+  mpGame: MPGame;
   oponentName:string;
   word_arr:any[]=[];
   letters:any[]=[];
@@ -26,10 +30,13 @@ export class GamePageComponent {
   imagePath:number[]=[0,1,2,3,4,5,6,7,8,9,10];
 
   constructor(public navParams:NavParams, public navCtrl:NavController, public authData:AuthService, public formBuilder:FormBuilder,
-              public alertCtrl:AlertController, public loadingCtrl:LoadingController, public userDataService:UserDataService) {
+              public alertCtrl:AlertController, public loadingCtrl:LoadingController, public userDataService: UserDataService,
+              private mpGameStarterService: MPGameStarterService, private mpGameFinishedService: MPGameFinishedService ) {
     this.topic = navParams.data.topic;
     this.word = navParams.data.word;
     this.isMultiplayer = navParams.data.isMultiplayer;
+    this.isStarter = navParams.data.isStarter;
+    this.mpGame= navParams.data.mpGame;
     this.oponentName = navParams.data.opponentName;
     console.log(this.topic);
     console.log(this.word);
@@ -45,7 +52,6 @@ export class GamePageComponent {
     this.foundMatchingLetters=0;
     this.maxtrys=10;
     this.foundWrongLetters=0;
-    this.uds = userDataService;
   }
 
   press(letter:any){
@@ -77,9 +83,17 @@ export class GamePageComponent {
     });
 
     if (!this.isMultiplayer) {
-      var game = new Game(null, this.topic, this.word, this.foundWrongLetters, !this.isMultiplayer, this.oponentName, 0);
+      let game = new Game(null, this.topic, this.word, this.foundWrongLetters, !this.isMultiplayer, this.oponentName, 0);
       console.log(game);
-      this.uds.persistGame(game);
+      this.userDataService.persistGame(game);
+    } else {
+      if(this.isStarter){
+        this.mpGameStarterService.addNewMPGame(new Game(null, this.topic, this.word, this.foundWrongLetters, !this.isMultiplayer, this.oponentName, null));
+      } else {
+        this.mpGameStarterService.deleteFinishedMPGame(this.mpGame.id);
+        this.userDataService.persistGame(new Game(this.mpGame.id, this.mpGame.topic, this.mpGame.word, this.foundWrongLetters, !this.isMultiplayer, this.mpGame.opponent, this.mpGame.badChars));
+        this.mpGameFinishedService.addFinishedMPGame(new Game(this.mpGame.id, this.mpGame.topic, this.mpGame.word, this.foundWrongLetters, !this.isMultiplayer, this.mpGame.opponent, null));
+      }
     }
 
     var msg = "Du hast das Spiel gewonnen!";

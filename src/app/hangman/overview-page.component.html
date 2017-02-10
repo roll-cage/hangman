@@ -17,12 +17,14 @@
   <ion-item-group>
     <ion-item-divider></ion-item-divider>
     <ion-item-divider align="center" color="lightgrey">Laufende MP-Spiele</ion-item-divider>
-    <ion-list *ngIf="mpGamesToAccept.length > 0">
-        <ion-item text-wrap *ngFor="let game of mpGamesToAccept"> <!-- add click event -->
+    <div *ngIf="mpGamesToAccept.length > 0">
+    <ion-list *ngFor="let game of mpGamesToAccept">
+        <ion-item text-wrap (click)="startMPChallengedGame(game)">
           <h2>Herrausforderung von: {{game.opponent}}</h2>
           <p>Thema: {{game.topic}} // Annehmen</p>
         </ion-item>
     </ion-list>
+    </div>
     <ion-list *ngIf="startedMPGames.length > 0">
       <ion-item text-wrap *ngFor="let game of startedMPGames">
         <h2>Gegner: {{game.opponentName}} - Thema: {{game.topic}}</h2>

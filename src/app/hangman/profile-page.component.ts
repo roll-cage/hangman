@@ -16,9 +16,11 @@ import {AchievementPageComponent} from "./achievement-list-page.component";
 export class ProfilePageComponent {
 
   username:string;
+  usermail:string;
   constructor(private userDataService: UserDataService,public nav: NavController, public authData: AuthService, public formBuilder: FormBuilder,
               public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
     this.username=userDataService.username;
+    this.usermail=userDataService.usermail;
   }
 
   goToAchievements(){

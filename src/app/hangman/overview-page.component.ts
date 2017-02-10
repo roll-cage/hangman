@@ -78,11 +78,12 @@ export class OverviewPageComponent {
     );
     //mpgamestarter.addNewMPGame(new Game(null, "Tiere", "Koalabaer", 3, false, "testuser", null));
     /*let tiere: string[] = ["Elefant", "Koalabaer", "Galapagosschildkröte"];
-
     tds.persist(new Topic(null, "Tiere", tiere));*/
     //let items: string[] = ["Tasse", "Messer", "Handtuch", "Brille", "Waschlappen", "Kuehlschrank", "Tisch", "Fernsehgeraet"];
-
     // tds.persist(new Topic(null, "Gegenstaende", items));
+    //let cities: string[] = ["Paris", "Berlin", "Timbuktu", "Shanghai", "Delhi", "Jakarta", "London",
+    //  "Moskau", "Hongkong", "Yokohama", "Nagasaki", "Johannesburg", "Budapest"];
+    //tds.persist(new Topic(null, "Städte", cities));
     /**achievementDataService.persist(new Achievement(null, "10 Siege", "Gewinne 10 Spiele in einem beliebigen Modus!", 10));
     achievementDataService.persist(new Achievement(null, "100 Siege", "Gewinne 100 Spiele in einem beliebigen Modus!", 100));
     achievementDataService.persist(new Achievement(null, "50 Siege im SP", "Gewinne 50 Spiele im Single Player Modus!", 30));

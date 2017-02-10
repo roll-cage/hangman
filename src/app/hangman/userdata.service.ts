@@ -6,12 +6,14 @@ import {FirebaseListObservable, FirebaseObjectObservable, AngularFire} from "ang
 
 @Injectable()
 export class UserDataService {
+  fbUserEmail: FirebaseObjectObservable<any>;
   fbGames: FirebaseListObservable<any[]>;
   fbAchievs: FirebaseListObservable<any[]>;
   fbUsername: FirebaseObjectObservable<any>;
   games: Observable<Game[]>;
   achievs: Observable<string[]>;
   username: string;
+  usermail: string;
 
   constructor(private af: AngularFire) {}
 
@@ -21,15 +23,25 @@ export class UserDataService {
 
   initializeService(uid: string): void {
     this.username = "";
+    this.usermail = "";
     this.fbGames = this.af.database.list("users/" + uid + "/games");
     this.fbAchievs = this.af.database.list("users/" + uid + "/achievements");
     this.fbUsername = this.af.database.object("users/" + uid + "/username", { preserveSnapshot: true });
-    let subscription = this.fbUsername.subscribe(
+    let subscription1 = this.fbUsername.subscribe(
       snapshot => {
         if(this.username.localeCompare("")==0){
           this.username = snapshot.val();
         }
-        subscription.unsubscribe();
+        subscription1.unsubscribe();
+      }
+    );
+    this.fbUserEmail = this.af.database.object("users/" + uid + "/email", { preserveSnapshot: true });
+    let subscription2 = this.fbUserEmail.subscribe(
+      snapshot => {
+        if(this.usermail.localeCompare("")==0){
+          this.usermail = snapshot.val();
+        }
+        subscription2.unsubscribe();
       }
     );
     this.games = this.fbGames.map(
@@ -54,10 +66,14 @@ export class UserDataService {
     return this.username;
   }
 
+  getUserEmail(): string {
+    return this.usermail;
+  }
+
   findGames(): Observable<Game[]> {
     return this.games;
   }
-  
+
   findAchievIDs(): Observable<string[]> {
     console.log(this.achievs)
     return this.achievs;

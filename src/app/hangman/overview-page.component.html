@@ -15,7 +15,8 @@
 </ion-header>
 <ion-content>
   <ion-item-group>
-    <ion-item-divider color="light">Laufende MP-Spiele</ion-item-divider>
+    <ion-item-divider></ion-item-divider>
+    <ion-item-divider align="center" color="lightgrey">Laufende MP-Spiele</ion-item-divider>
     <ion-list *ngIf="mpGamesToAccept.length > 0">
         <ion-item text-wrap *ngFor="let game of mpGamesToAccept"> <!-- add click event -->
           <h2>Herrausforderung von: {{game.opponent}}</h2>
@@ -29,7 +30,7 @@
       </ion-item>
     </ion-list>
     <button ion-item *ngIf="(startedMPGames.length == 0) && (mpGamesToAccept.length == 0)">Keine aktiven MP-Spiele verfügbar</button>
-    <ion-item-divider color="light">Vergangene Spiele</ion-item-divider>
+    <ion-item-divider align="center" color="lightgrey">Vergangene Spiele</ion-item-divider>
     <ion-list *ngIf="pastGames.length > 0">
       <ion-item-sliding *ngFor="let game of pastGames">
         <ion-item text-wrap *ngIf="(game.singleplayer && game.visible)">

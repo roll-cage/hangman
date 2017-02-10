@@ -82,10 +82,26 @@ export class GamePageComponent {
       this.uds.persistGame(game);
     }
 
+    var msg = "Du hast das Spiel gewonnen!";
     if(won) {
       this.gameWon=true;
     } else {
       this.gameOver=true;
+      msg = "Du hast das Spiel verloren!";
     }
+
+    let confirm = this.alertCtrl.create({
+      title: 'Spiel beendet',
+      message: msg,
+      buttons: [
+        {
+          text: 'Zurück',
+          handler: () => {
+            this.navCtrl.pop();
+          }
+        },
+      ]
+    });
+    confirm.present();
   }
 }

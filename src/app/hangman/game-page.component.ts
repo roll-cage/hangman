@@ -38,10 +38,16 @@ export class GamePageComponent {
     this.isStarter = navParams.data.isStarter;
     this.mpGame= navParams.data.mpGame;
     this.oponentName = navParams.data.opponentName;
+    if(this.mpGame != null){
+      this.word = this.mpGame.word;
+      this.topic = this.mpGame.topic;
+      this.oponentName = this.mpGame.opponent;
+    }
+
     console.log(this.topic);
     console.log(this.word);
 
-    let wordLetters=navParams.data.word.split("");
+    let wordLetters = this.word.split("");
     wordLetters.forEach(letter => {
       this.word_arr.push({is:letter,found:false});
     });
@@ -96,7 +102,7 @@ export class GamePageComponent {
       }
     }
 
-    var msg = "Du hast das Spiel gewonnen!";
+    let msg = "Du hast das Spiel gewonnen!";
     if(won) {
       this.gameWon=true;
     } else {

@@ -1,24 +1,22 @@
-<script src="../../../../../../AppData/Roaming/npm/node_modules/tsviz/src/typings/graphviz/graphviz.d.ts"></script>
 <ion-header>
-  <ion-navbar color="primary" *ngIf="!isSearching">
-    <ion-title >
+  <ion-navbar color="primary" >
+    <ion-title *ngIf="!isSearching">
       Errungenschaften {{achiev_Points}}
       <ion-icon color="gold" name="md-medal"></ion-icon>
     </ion-title>
-    <ion-buttons end>
+    <ion-buttons end *ngIf="!isSearching">
       <button ion-button icon-only (click)="showAchievs()">
         <ion-icon name="search"></ion-icon>
       </button>
     </ion-buttons>
-
+    <ion-searchbar [(ngModel)]="searchQuery"
+                   *ngIf="isSearching"
+                   (ionInput)="doSearch()"
+                   (ionClear)="clearSearchbar()"
+                   showCancelButton="true"
+                   (ionCancel)="cancel()">
+    </ion-searchbar>
   </ion-navbar>
-  <ion-searchbar [(ngModel)]="searchQuery"
-                 *ngIf="isSearching"
-                 (ionInput)="doSearch()"
-                 (ionClear)="clearSearchbar()"
-                 showCancelButton="true"
-                 (ionCancel)="cancel()">
-  </ion-searchbar>
 </ion-header>
 <ion-content>
   <ion-item-divider></ion-item-divider>

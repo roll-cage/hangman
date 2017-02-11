@@ -60,17 +60,11 @@ export class SignupPageComponent {
       loading.present();
 
       this.authData.signupUser(this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.name).subscribe(registerData => {
-        this.authData.loginUser(registerData.email, registerData.password).subscribe(loginData => {
-          setTimeout(() => {
-            loading.dismiss();
-            this.nav.setRoot(OverviewPageComponent);
-          }, 1000);
-        }, loginError => {
-          setTimeout(() => {
-            loading.dismiss();
-            console.log("loginError");
-          }, 1000);
-        });
+        this.usernamesService.addUsername(this.signupForm.value.name);
+        setTimeout(() => {
+          loading.dismiss();
+          this.nav.setRoot(OverviewPageComponent);
+        }, 1000);
       }, registerError => {
         setTimeout(() => {
           loading.dismiss();

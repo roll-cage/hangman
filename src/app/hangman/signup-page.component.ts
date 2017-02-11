@@ -84,7 +84,7 @@ export class SignupPageComponent {
     return new Promise(resolve => {
 
       setTimeout(() => {
-        if(SignupPageComponent.usernamesService.checkUsername(control.value.toLowerCase())){
+        if(SignupPageComponent.usernamesService.checkUsername(control.value)){
           resolve({
             "username taken": true
           });

@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController, AlertController, ModalController} from "ionic-angular";
 import {AuthService} from "./auth.service";
-import {User} from "./user.model";
 import {UserDataService} from "./userdata.service";
 import {AchievementDataService} from "./achievementdata.service"
 import {Game} from "./game.model";
@@ -25,7 +24,6 @@ import {GamePageComponent} from "./game-page.component";
 })
 
 export class OverviewPageComponent {
-  user: User;
   pastGames: Game[] = [];
   startedMPGames: Game[] = [];
   mpGamesToAccept: MPGame[] = [];

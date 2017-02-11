@@ -3,10 +3,12 @@ import {Component} from "@angular/core";
 import {FormBuilder} from "@angular/forms";
 import {AuthService} from "./auth.service";
 import {UserDataService} from "./userdata.service";
+import {AchievementDataService} from "./achievementdata.service";
 import {Game} from "./game.model";
 import {MPGameStarterService} from "./multiplayerGameStarter.service";
 import {MPGameFinishedService} from "./multiplayerGameFinished.service";
 import {MPGame} from "./multiplayerGame.model";
+import {AchievementManager} from "./achievement-manager";
 
 @Component({
   selector: 'game-page',
@@ -28,10 +30,12 @@ export class GamePageComponent {
   gameOver:boolean=false;
   gameWon:boolean=false;
   imagePath:number[]=[0,1,2,3,4,5,6,7,8,9,10];
+  achievManager: AchievementManager;
 
   constructor(public navParams:NavParams, public navCtrl:NavController, public authData:AuthService, public formBuilder:FormBuilder,
               public alertCtrl:AlertController, public loadingCtrl:LoadingController, public userDataService: UserDataService,
-              private mpGameStarterService: MPGameStarterService, private mpGameFinishedService: MPGameFinishedService ) {
+              private mpGameStarterService: MPGameStarterService, private mpGameFinishedService: MPGameFinishedService,
+              private achievementDataService: AchievementDataService) {
     this.topic = navParams.data.topic;
     this.word = navParams.data.word;
     this.isMultiplayer = navParams.data.isMultiplayer;
@@ -58,6 +62,7 @@ export class GamePageComponent {
     this.foundMatchingLetters=0;
     this.maxtrys=10;
     this.foundWrongLetters=0;
+    this.achievManager = new AchievementManager(userDataService, achievementDataService, alertCtrl);
   }
 
   press(letter:any){
@@ -92,6 +97,8 @@ export class GamePageComponent {
     if (!this.isMultiplayer) {
       let game = new Game(null, this.topic, this.word, this.foundWrongLetters, !this.isMultiplayer, this.oponentName, 0);
       this.userDataService.persistGame(game);
+      this.achievManager.checkForNewAchievement(game);
+
       if(won){
         msg = "Du hast das Spiel zum Wort " + this.word + " gewonnen!";
       } else {
@@ -100,6 +107,7 @@ export class GamePageComponent {
     } else {
       if(this.isStarter){
         this.mpGameStarterService.addNewMPGame(new Game(null, this.topic, this.word, this.foundWrongLetters, !this.isMultiplayer, this.oponentName, null));
+        this.achievManager.checkForNewAchievement(new Game(null, this.topic, this.word, this.foundWrongLetters, !this.isMultiplayer, this.oponentName, null));
         if(won){
           msg = "Du hast das Spiel zum Wort " + this.word + " gewonnen! Mal sehen, wie dein Gegner abschneidet.";
         } else {
@@ -108,6 +116,7 @@ export class GamePageComponent {
       } else {
         this.mpGameStarterService.deleteFinishedMPGame(this.mpGame.id);
         this.userDataService.persistGame(new Game(this.mpGame.id, this.mpGame.topic, this.mpGame.word, this.foundWrongLetters, !this.isMultiplayer, this.mpGame.opponent, this.mpGame.badChars));
+        this.achievManager.checkForNewAchievement(new Game(this.mpGame.id, this.mpGame.topic, this.mpGame.word, this.foundWrongLetters, !this.isMultiplayer, this.mpGame.opponent, this.mpGame.badChars));
         this.mpGameFinishedService.addFinishedMPGame(new Game(this.mpGame.id, this.mpGame.topic, this.mpGame.word, this.foundWrongLetters, !this.isMultiplayer, this.mpGame.opponent, null));
         if(this.foundWrongLetters < this.mpGame.badChars){
           msg = "Du hast das Spiel zum Wort " + this.word + " gegen " + this.mpGame.opponent + " gewonnen!";

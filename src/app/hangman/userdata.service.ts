@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Game} from "./game.model";
 import {Observable} from "rxjs";
 import {FirebaseListObservable, FirebaseObjectObservable, AngularFire} from "angularfire2";
+import {Achievement} from "./achievement.model";
 
 
 @Injectable()
@@ -9,6 +10,7 @@ export class UserDataService {
   fbUserEmail: FirebaseObjectObservable<any>;
   fbGames: FirebaseListObservable<any[]>;
   fbAchievs: FirebaseListObservable<any[]>;
+  achievObjectPath: string;
   fbUsername: FirebaseObjectObservable<any>;
   games: Observable<Game[]>;
   achievs: Observable<string[]>;
@@ -24,6 +26,7 @@ export class UserDataService {
   initializeService(uid: string): void {
     this.username = "";
     this.usermail = "";
+    this.achievObjectPath = "users/" + uid + "/achievements/";
     this.fbGames = this.af.database.list("users/" + uid + "/games");
     this.fbAchievs = this.af.database.list("users/" + uid + "/achievements");
     this.fbUsername = this.af.database.object("users/" + uid + "/username", { preserveSnapshot: true });
@@ -81,6 +84,10 @@ export class UserDataService {
 
   persistGame(game: Game): string {
     return this.fbGames.push(game).key;
+  }
+
+  persistAchiev(id: string, points: number) {
+    return this.af.database.object(this.achievObjectPath+id).set(points);
   }
 
   deleteGame(game: Game): void {

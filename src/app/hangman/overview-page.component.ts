@@ -44,6 +44,7 @@ export class OverviewPageComponent {
             this.startedMPGames.push(game);
           }
         });
+        this.pastGames = this.pastGames.reverse();
       }
     );
 
@@ -126,9 +127,6 @@ export class OverviewPageComponent {
     modal.present();
     modal.onDidDismiss(data => {
       if(data){
-        //TODO: start new game from here, hand over all needed information (username, ismultiplayer, word)
-        // don't add newMpGame to Firebase yet, not until game is finished and all information are available
-        // this.mpgamestarter.addNewMPGame(new Game(null,data.topic,data.word,0,false,opponentName,0));
         let gameData={
           isMultiplayer:isMultiplayer,
           isStarter: true,

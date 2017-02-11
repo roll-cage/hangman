@@ -88,26 +88,41 @@ export class GamePageComponent {
       letter.disabled = true;
     });
 
+    let msg = "";
     if (!this.isMultiplayer) {
       let game = new Game(null, this.topic, this.word, this.foundWrongLetters, !this.isMultiplayer, this.oponentName, 0);
-      console.log(game);
       this.userDataService.persistGame(game);
+      if(won){
+        msg = "Du hast das Spiel zum Wort " + this.word + " gewonnen!";
+      } else {
+        msg = "Du hast das Spiel zum Wort " + this.word + " verloren!";
+      }
     } else {
       if(this.isStarter){
         this.mpGameStarterService.addNewMPGame(new Game(null, this.topic, this.word, this.foundWrongLetters, !this.isMultiplayer, this.oponentName, null));
+        if(won){
+          msg = "Du hast das Spiel zum Wort " + this.word + " gewonnen! Mal sehen, wie dein Gegner abschneidet.";
+        } else {
+          msg = "Du hast das Spiel zum Wort " + this.word + " verloren! Mal sehen, wie dein Gegner abschneidet.";
+        }
       } else {
         this.mpGameStarterService.deleteFinishedMPGame(this.mpGame.id);
         this.userDataService.persistGame(new Game(this.mpGame.id, this.mpGame.topic, this.mpGame.word, this.foundWrongLetters, !this.isMultiplayer, this.mpGame.opponent, this.mpGame.badChars));
         this.mpGameFinishedService.addFinishedMPGame(new Game(this.mpGame.id, this.mpGame.topic, this.mpGame.word, this.foundWrongLetters, !this.isMultiplayer, this.mpGame.opponent, null));
+        if(this.foundWrongLetters < this.mpGame.badChars){
+          msg = "Du hast das Spiel zum Wort " + this.word + " gegen " + this.mpGame.opponent + " gewonnen!";
+        } else if(this.foundWrongLetters > this.mpGame.badChars) {
+          msg = "Du hast das Spiel zum Wort " + this.word + " gegen " + this.mpGame.opponent + " verloren!";
+        } else {
+          msg = "Du hast im Spiel zum Wort " + this.word + " genau so viele Fehler gemacht wie Dein Gegner!";
+        }
       }
     }
 
-    let msg = "Du hast das Spiel gewonnen!";
     if(won) {
       this.gameWon=true;
     } else {
       this.gameOver=true;
-      msg = "Du hast das Spiel verloren!";
     }
 
     let confirm = this.alertCtrl.create({

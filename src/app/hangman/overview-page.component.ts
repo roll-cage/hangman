@@ -16,6 +16,7 @@ import {UserPickerPageComponent} from "./userpicker-page.component";
 import {TopicPickerPageComponent} from "./topicpicker-page.component";
 import {ProfilePageComponent} from "./profile-page.component";
 import {GamePageComponent} from "./game-page.component";
+import {AchievementManager} from "./achievement-manager";
 
 
 @Component({
@@ -27,11 +28,12 @@ export class OverviewPageComponent {
   pastGames: Game[] = [];
   startedMPGames: Game[] = [];
   mpGamesToAccept: MPGame[] = [];
+  finishedGamesSubscription: any;
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, public modalCtrl: ModalController,
               private userService: AuthService, private userDataService: UserDataService, private tds: TopicDataService,
               private usernamesService: UsernamesService, private mpgamestarter: MPGameStarterService,
               private mpGameFinished: MPGameFinishedService, public af: AngularFire,
-              private achievementDataService: AchievementDataService){
+              private achievManager: AchievementManager){
     //userService.loginUser("hansgjhgkjgjgjgjg@ggmail.com", "password");
     userDataService.findGames().subscribe(
       (games: Game[])=> {
@@ -56,26 +58,28 @@ export class OverviewPageComponent {
         newMpGames.forEach((newMpGame) => {
           if(userDataService.getUsername().localeCompare(newMpGame.opponent) == 0){
             this.mpGamesToAccept.push(new MPGame(newMpGame.id, newMpGame.topic, newMpGame.word, newMpGame.badChars, userDataService.getUsername(), newMpGame.username));
-            //dont forget to delete it after game finished
           }
         });
       }
     );}, 300);
 
-    mpGameFinished.findFinishedMPGames().subscribe(
+    //not properly working without timeout, maybe updateGame isn't available immediately.
+    setTimeout(()=>{
+    this.finishedGamesSubscription = mpGameFinished.findFinishedMPGames().subscribe(
       (finishedMpGames: MPGame[]) => {
         finishedMpGames.forEach((finishedMpGame) => {
           this.startedMPGames.forEach((startedMPGame) => {
             if(startedMPGame.id.localeCompare(finishedMpGame.id) == 0){
-              userDataService.updateGame(new Game(startedMPGame.id, startedMPGame.topic, startedMPGame.word,
-                startedMPGame.badChars, false, startedMPGame.opponentName, finishedMpGame.badChars));
+              let newGame = new Game(startedMPGame.id, startedMPGame.topic, startedMPGame.word,
+                startedMPGame.badChars, false, startedMPGame.opponentName, finishedMpGame.badChars);
+              userDataService.updateGame(newGame);
+              achievManager.checkForNewAchievement(newGame);
               mpGameFinished.deleteFinishedMPGame(startedMPGame.id);
             }
           });
         });
       }
-    );
-    //mpgamestarter.addNewMPGame(new Game(null, "Tiere", "Koalabaer", 3, false, "testuser", null));
+    );}, 300);
     /*let tiere: string[] = ["Elefant", "Koalabaer", "Galapagosschildkröte"];
     tds.persist(new Topic(null, "Tiere", tiere));*/
     //let items: string[] = ["Tasse", "Messer", "Handtuch", "Brille", "Waschlappen", "Kuehlschrank", "Tisch", "Fernsehgeraet"];
@@ -157,6 +161,7 @@ export class OverviewPageComponent {
   }
 
   logOut(){
+    this.finishedGamesSubscription.unsubscribe();
     this.userService.logoutUser();
     this.navCtrl.setRoot(LoginPageComponent);
   }

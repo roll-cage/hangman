@@ -17,15 +17,23 @@ export class UserDataService {
 
   constructor(private af: AngularFire) {}
 
-  object(path: string): FirebaseObjectObservable<any> {
+  /**
+   * Returns a Firebase Object to a given path.
+   *
+   * @param path The path to searched Object
+   * @returns {FirebaseObjectObservable<any>} The searched Firebase Object.
+   */
+  public object(path: string): FirebaseObjectObservable<any> {
     return this.af.database.object(path);
   }
 
   /**
-   * Initializes variables for usage
-   * @param uid
+   * Used to initialize all user related database Observables. Needs to be called after every login and is therefore not
+   * done in the constructor.
+   *
+   * @param uid Firebase ID of the currently logged in user
    */
-  initializeService(uid: string): void {
+  public initializeService(uid: string): void {
     this.username = "";
     this.usermail = "";
     this.achievObjectPath = "users/" + uid + "/achievements/";
@@ -76,7 +84,7 @@ export class UserDataService {
    * Returns username of the user
    * @returns {string}
    */
-  getUsername(): string{
+  public getUsername(): string{
     return this.username;
   }
 
@@ -84,7 +92,7 @@ export class UserDataService {
    * Returns email of the user
    * @returns {string}
    */
-  getUserEmail(): string {
+  public getUserEmail(): string {
     return this.usermail;
   }
 
@@ -92,7 +100,7 @@ export class UserDataService {
    * Returns an observable of all games
    * @returns {Observable<Game[]>}
    */
-  findGames(): Observable<Game[]> {
+  public findGames(): Observable<Game[]> {
     return this.games;
   }
 
@@ -100,16 +108,16 @@ export class UserDataService {
    * Returns an observable of all achievements
    * @returns {Observable<string[]>}
    */
-  findAchievIDs(): Observable<string[]> {
+  public findAchievIDs(): Observable<string[]> {
     return this.achievs;
   }
 
   /**
-   * Stores a user game to the db
-   * @param game
-   * @returns {string|null}
+   * Persists the given game in the user database and returns the key under which it is available.
+   * @param game The game to persist.
+   * @returns {string|null} The key that was used to persist it.
    */
-  persistGame(game: Game): string {
+  public persistGame(game: Game): string {
     return this.fbGames.push(game).key;
   }
 
@@ -118,15 +126,15 @@ export class UserDataService {
    * @param id
    * @param points
    */
-  persistAchiev(id: string, points: number) {
+  public persistAchiev(id: string, points: number) {
     return this.af.database.object(this.achievObjectPath+id).set(points);
   }
 
   /**
-   * Deletes/Updates a user game from the db by disabling visability and resetting values (SP)
-   * @param game
+   * Update the given game to be invisible for the user. It isn't really deleted to save it's data for the statistics.
+   * @param game The game to make invisible
    */
-  deleteGame(game: Game): void {
+  public deleteGame(game: Game): void {
     game.visible = false;
     if(game.singleplayer){
       game.opponentName = null;
@@ -139,7 +147,7 @@ export class UserDataService {
    * Updates a user game with game by param
    * @param game
    */
-  updateGame(game: Game): void {
+  public updateGame(game: Game): void {
     this.fbGames.update(game.id, game);
   }
 }

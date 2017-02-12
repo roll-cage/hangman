@@ -24,7 +24,12 @@ export class TopicDataService {
     );
   }
 
-  getTopicNames(): string[] {
+  /**
+   * Returns a string[] with the available topics.
+   *
+   * @returns {string[]}
+   */
+  public getTopicNames(): string[] {
     //if called to early, the topicList is not set. maybe has to be redone
     let topicNames: string[] = [];
       this.topicList.forEach((topic) => {
@@ -33,13 +38,22 @@ export class TopicDataService {
     return topicNames;
   }
 
-  getWordFromTopic(topicName: string): string {
+  /**
+   * Returns a random word from the provided topic.
+   * @param topicName
+   * @returns {string} word
+   */
+  public getWordFromTopic(topicName: string): string {
     //if called to early, the topicList is not set. maybe has to be redone
     let words: string[] = this.topicList.find(topic => topic.name == topicName).words;
     return words[Math.floor(Math.random() * words.length)]
   }
 
-  persist(topic: Topic): void {
+  /**
+   * Adds a new topic to firebase.
+   * @param topic
+   */
+  public persist(topic: Topic): void {
     this.fbTopics.push(topic);
   }
 

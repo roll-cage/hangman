@@ -29,12 +29,12 @@ export class OverviewPageComponent {
   startedMPGames: Game[] = [];
   mpGamesToAccept: MPGame[] = [];
   finishedGamesSubscription: any;
+  achievManager: AchievementManager;
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, public modalCtrl: ModalController,
               private userService: AuthService, private userDataService: UserDataService, private tds: TopicDataService,
               private usernamesService: UsernamesService, private mpgamestarter: MPGameStarterService,
-              private mpGameFinished: MPGameFinishedService, public af: AngularFire,
-              private achievManager: AchievementManager){
-    //userService.loginUser("hansgjhgkjgjgjgjg@ggmail.com", "password");
+              private mpGameFinished: MPGameFinishedService, public af: AngularFire, private achievementDataService: AchievementDataService){
+    this.achievManager = new AchievementManager(userDataService, achievementDataService, alertCtrl);
     userDataService.findGames().subscribe(
       (games: Game[])=> {
         this.pastGames = [];
@@ -73,7 +73,7 @@ export class OverviewPageComponent {
               let newGame = new Game(startedMPGame.id, startedMPGame.topic, startedMPGame.word,
                 startedMPGame.badChars, false, startedMPGame.opponentName, finishedMpGame.badChars);
               userDataService.updateGame(newGame);
-              achievManager.checkForNewAchievement(newGame);
+              this.achievManager.checkForNewAchievement(newGame);
               mpGameFinished.deleteFinishedMPGame(startedMPGame.id);
             }
           });

@@ -7,15 +7,27 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-item color="lightgrey" align="center" >{{username}}</ion-item>
+
+
+
+  <ion-item color="lightgrey" align="center" >Benutzername: {{username}}</ion-item>
   <ion-item>Emailadresse: {{usermail}}</ion-item>
 
-  <button ion-button round block icon-left item-right (click)="goToAchievements()">
-    <ion-icon color="light" name="ios-medal"></ion-icon>
-    Errungenschaften
-  </button>
-  <button ion-button round block icon-left item-right (click)="goToStats()">
-    <ion-icon color="light" name="md-stats"></ion-icon>
-    Statistik
-  </button>
+    <ion-row style="min-height: 50%">
+      <ion-col block width-50>
+        <button style="min-height: 50%;" ion-button round block icon-left item-right (click)="goToAchievements()">
+          <ion-icon color="light" name="ios-medal"></ion-icon>
+          Errungenschaften
+        </button>
+      </ion-col>
+      <ion-col block width-50>
+        <button style="min-height: 50%;" ion-button round block icon-left item-right (click)="goToStats()">
+          <ion-icon color="light" name="md-stats"></ion-icon>
+          Statistik
+        </button>
+      </ion-col>
+    </ion-row>
+
+
+
 </ion-content>

@@ -26,8 +26,7 @@ export class SignupPageComponent {
     this.signupForm = formBuilder.group({
       'email': ['', [Validators.required, this.emailValidator.bind(this)]],
       'password': ['', Validators.compose([Validators.minLength(6), Validators.required])],
-      //TODO Verschiedene Fehlermeldungen
-      'name': ['', [Validators.compose([Validators.required, Validators.minLength(4)]), this.nameValidator.bind(this)],SignupPageComponent.checkUsername],
+      'name': ['', [Validators.compose([Validators.required, Validators.minLength(4)]), this.nameValidator.bind(this)],/*SignupPageComponent.checkUsername*/]
     })
   }
 
@@ -37,7 +36,7 @@ export class SignupPageComponent {
     }
 }
   emailValidator(control: FormControl): {[s: string]: boolean} {
-    if (!(control.value.toLowerCase().match('^\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,3}$'))) {
+    if (!(control.value.toLowerCase().match('^\\S+@\\S+'))) {
       return {invalidEmail: true};
     }
   }
@@ -50,10 +49,23 @@ export class SignupPageComponent {
 
   signupUser(){
     this.submitAttempt = true;
+    if(this.signupForm.valid){
+    let error,username;
+    if(this.usernamesService.checkUsername(this.signupForm.controls.name.value)){
+      username=true;
+      error = this.alertCtrl.create({
+        title: "Nutzername bereits vergeben",
+        buttons: [
+          {
+            text: 'OK'
+          },
+        ]
+      });
+      error.present();
+    }
 
-    if (!this.signupForm.valid){
-      console.log(this.signupForm.value);
-    } else {
+
+    if(!username){
       let loading = this.loadingCtrl.create({
         content: 'Bitte warten...'
       });
@@ -68,16 +80,34 @@ export class SignupPageComponent {
       }, registerError => {
         setTimeout(() => {
           loading.dismiss();
-          console.log("registerError");
+
+          let message;
+          if(registerError.code==="auth/email-already-in-use"){
+            message="E-Mail bereits vergeben"
+          }
+          if(registerError.code==="auth/network-request-failed"){
+            message="Netzwerkfehler"
+          }
+          error = this.alertCtrl.create({
+            title: message,
+            buttons: [
+              {
+                text: 'OK'
+              },
+            ]
+          });
+          error.present();
         }, 1000);
       });
     }
+    }
+
+
   }
-  static checkUsername(control: FormControl,usernamesService: UsernamesService): any {
+  checkUsername(control: FormControl,usernamesService: UsernamesService): any {
 
     return new Promise(resolve => {
 
-      setTimeout(() => {
         if(SignupPageComponent.usernamesService.checkUsername(control.value)){
           resolve({
             "username taken": true
@@ -85,8 +115,6 @@ export class SignupPageComponent {
         } else {
           resolve(null);
         }
-      }, 1000);
-
     });
   }
 }

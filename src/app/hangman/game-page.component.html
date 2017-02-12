@@ -8,13 +8,26 @@
     </ion-title>
   </ion-navbar>
 </ion-header>
-<!--TODO Smooth Image change
--->
 <ion-content padding>
   <ion-card>
-    <div *ngFor="let path of imagePath">
-    <img class="gameImage" *ngIf="foundWrongLetters==path" src="./images/{{path}}.png">
+
+
+    <div style="position:relative">
+      <div>
+        <img class="gameImage animate-if" src="./images/0.png">
+      </div>
+
+        <div *ngFor="let path of imagePath">
+          <div style="position:absolute; left:0; top:0;">
+          <img class="gameImage animate-if" *ngIf="foundWrongLetters==path" src="./images/{{path}}.png">
+          </div>
+        </div>
+
     </div>
+
+
+
+
   </ion-card>
   <br>
   <ion-item-divider color="darkgrey" align="center" *ngIf="gameOver">Game Over</ion-item-divider>

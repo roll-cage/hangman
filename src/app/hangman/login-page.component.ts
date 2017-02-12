@@ -34,7 +34,7 @@ export class LoginPageComponent {
   }
 
   emailValidator(control: FormControl): {[s: string]: boolean} {
-    if (!(control.value.toLowerCase().match('^\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,3}$'))) {
+    if (!(control.value.toLowerCase().match('^\\S+@\\S+'))) {
       return {invalidEmail: true};
     }
   }
@@ -83,6 +83,17 @@ export class LoginPageComponent {
         this.nav.setRoot(OverviewPageComponent);
       }, err => {
         loading.dismiss();
+        if(err.code==="auth/user-not-found"){
+          let confirm = this.alertCtrl.create({
+            title: 'E-Mail nicht registriert',
+            buttons: [
+              {
+                text: 'OK'
+              },
+            ]
+          });
+          confirm.present();
+        }
         this.error = err;
       });
     }

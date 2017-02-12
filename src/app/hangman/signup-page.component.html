@@ -18,7 +18,7 @@
                  [class.invalid]="!signupForm.controls.email.valid && (emailChanged || submitAttempt)"></ion-input>
     </ion-item>
     <ion-item class="error-message" *ngIf="!signupForm.controls.email.valid  && (emailChanged || submitAttempt)">
-      <p>Bitte E-Mail eingeben.</p>
+      <p>Keine valide E-Mail</p>
     </ion-item>
 
     <ion-item>
@@ -45,13 +45,13 @@
 
 
     <ion-item *ngIf="!signupForm.controls.name.valid && !signupForm.controls.name.pending && (signupForm.controls.name.dirty || submitAttempt)">
-      <p>Name zu kurz, oder schon in benutzung</p>
+      <p>Mindestens 4 Zeichen</p>
     </ion-item>
 
 
 
     <button ion-button block type="submit">
-      Create an Account
+      Registrieren
     </button>
 
   </form>

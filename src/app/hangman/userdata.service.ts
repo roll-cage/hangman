@@ -35,7 +35,9 @@ export class UserDataService {
         if(this.username.localeCompare("")==0){
           this.username = snapshot.val();
         }
-        subscription1.unsubscribe();
+        if(subscription1) {
+          subscription1.unsubscribe();
+        }
       }
     );
     this.fbUserEmail = this.af.database.object("users/" + uid + "/email", { preserveSnapshot: true });
@@ -44,7 +46,9 @@ export class UserDataService {
         if(this.usermail.localeCompare("")==0){
           this.usermail = snapshot.val();
         }
-        subscription2.unsubscribe();
+        if(subscription2) {
+          subscription2.unsubscribe();
+        }
       }
     );
     this.games = this.fbGames.map(

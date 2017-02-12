@@ -34,13 +34,21 @@ $colors: (
   white:      #ffffff
 );
 
-
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here
 
 
+@each $color-name, $color-base, $color-contrast in get-colors($colors) {
 
+  ion-item-divider.item-ios.item-ios-#{$color-name},
+  ion-item-divider.item-md.item-md-#{$color-name},
+  ion-item-divider.item-wp.item-wp-#{$color-name} {
+    color: $color-contrast;
+    background-color: $color-base;
+  }
+
+}
 
 // App Material Design Variables
 // --------------------------------------------------

@@ -13,7 +13,11 @@ export class AuthService {
     this.fireAuth = fa.auth;
   }
 
-  getUserData(): any {
+  /**
+   * Returns an Observable that can be used to access the user data of the logged in user
+   * @returns {any}
+   */
+  public getUserData(): any {
     return Observable.create(observer => {
       this.af.auth.subscribe(authData => {
         if (authData) {
@@ -28,7 +32,14 @@ export class AuthService {
     });
   }
 
-  loginUser(email: string, password: string): any {
+  /**
+   * Returns an Observable that logs in a user with the provided credentials or returns an error if login wasn't possible.
+   *
+   * @param email email to log in the user
+   * @param password password of the user
+   * @returns {any}
+   */
+  public loginUser(email: string, password: string): any {
     let credentials: any = {email: email, password: password};
     return Observable.create(observer => {
       this.af.auth.login(credentials, {
@@ -43,7 +54,15 @@ export class AuthService {
     });
   }
 
-  signupUser(email: string, password: string, username: string): any {
+  /**
+   * Returns an Observable that signs up a user with the provided credentials or returns an error if sign up wasn't possible.
+   *
+   * @param email
+   * @param password
+   * @param username
+   * @returns {any}
+   */
+  public signupUser(email: string, password: string, username: string): any {
     let credentials: any = {email: email, password: password};
     return Observable.create(observer => {
       this.af.auth.createUser(credentials).then((authData: any) => {
@@ -76,12 +95,11 @@ export class AuthService {
     });
   }
 
-  resetPassword(email: string): any {
+  public resetPassword(email: string): any {
     this.fireAuth.sendPasswordResetEmail(email);
   }
 
-  logoutUser() {
+  public logoutUser() {
     this.af.auth.logout();
   }
-
 }

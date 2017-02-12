@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import {Observable} from "rxjs";
 import {AngularFire, FirebaseObjectObservable} from "angularfire2";
 
 @Injectable()
 export class UsernamesService {
   fbUsernames: FirebaseObjectObservable<any>;
-  usernames: Observable<string[]>;
   usernamesList: string[] = [];
 
   constructor(private af: AngularFire) {
@@ -17,7 +15,7 @@ export class UsernamesService {
     );
   }
 
-  findUsernames(): FirebaseObjectObservable<any>{
+  public findUsernames(): FirebaseObjectObservable<any>{
     return this.fbUsernames;
   }
 

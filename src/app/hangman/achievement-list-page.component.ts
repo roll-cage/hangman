@@ -9,16 +9,16 @@ import {Achievement} from './achievement.model';
   templateUrl: 'achievement-list-page.component.html',
 })
 export class AchievementPageComponent {
-  achiev_Points: number = 0;
-  all_Achievs: Achievement[] = [];
-  user_Achievs: Achievement[] = [];
-  isSearching: boolean = false;
-  _searchbar;
+  achiev_Points: number = 0;          // counter for points of unlocked achievements
+  all_Achievs: Achievement[] = [];    // contains every achievement
+  user_Achievs: Achievement[] = [];   // contains all achievements unlocked by user
+  isSearching: boolean = false;       // switch of searchbar (html)
+  _searchbar;                         // searchbar
+  searchQuery: string = '';           // typed string to search for
+  filtered_all_Achievs: Achievement[] = [];   // all achievements filtered by searchQuery
+  filtered_user_Achievs: Achievement[] = [];  // all user achievements filtered by searchQuery
 
-  searchQuery: string = '';
-  filtered_all_Achievs: Achievement[] = [];
-  filtered_user_Achievs: Achievement[] = [];
-
+  // timeout for correct visibilty
   @ViewChild(Searchbar)
   set searchBar(sb: Searchbar) {
     this._searchbar = sb;
@@ -29,10 +29,12 @@ export class AchievementPageComponent {
   constructor(private userDataService: UserDataService, private achievementDataService: AchievementDataService,
               public nav: NavController, public alertCtrl: AlertController) {
 
-    achievementDataService.findAchievs().subscribe(                // iterate over all achievements
+    // load all achievements
+    achievementDataService.findAchievs().subscribe(
       (achievs: Achievement[]) => { this.all_Achievs = achievs; }
     );
 
+    // load all achievements unlocked by user
     userDataService.findAchievIDs().subscribe(
       (a_ID: string[]) => {
         a_ID.forEach((a_ID) => {
@@ -43,6 +45,7 @@ export class AchievementPageComponent {
 
             for (let index in this.all_Achievs) {
               if(this.all_Achievs[index].id == a.id) {
+                // delete unlocked achievement from list of not unlocked achievements
                 this.all_Achievs.splice(Number(index), 1);
               }
             }
@@ -54,10 +57,16 @@ export class AchievementPageComponent {
     this.filtered_all_Achievs = this.all_Achievs;
   }
 
+  /**
+   * Enable searchbar
+    */
   showAchievs(): void {
     this.isSearching = true;
   }
 
+  /**
+   * Set filtered achievements (all/user) by searchQuery
+   */
   doSearch() {
     this.filtered_all_Achievs = this.all_Achievs.filter(
       achiev => achiev.title.indexOf(this.searchQuery) != -1 ||
@@ -66,12 +75,19 @@ export class AchievementPageComponent {
       achiev => achiev.title.indexOf(this.searchQuery) != -1 ||
       achiev.text.indexOf(this.searchQuery) != -1);
   }
+
+  /**
+   * Clear searchQuery and reset filtered achievments (all/user)
+   */
   clearSearchbar() {
     this.searchQuery = '';
     this.filtered_all_Achievs = this.all_Achievs;
     this.filtered_user_Achievs = this.user_Achievs;
   }
 
+  /**
+   * Disable searchbar
+   */
   public cancel():void{
     this.isSearching=false;
   }

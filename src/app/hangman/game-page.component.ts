@@ -27,8 +27,6 @@ export class GamePageComponent {
   foundWrongLetters:number;
   maxtrys:number;
   imagepath:string;
-  gameOver:boolean=false;
-  gameWon:boolean=false;
   imagePath:number[]=[0,1,2,3,4,5,6,7,8,9,10];
   achievManager: AchievementManager;
 
@@ -47,9 +45,6 @@ export class GamePageComponent {
       this.topic = this.mpGame.topic;
       this.oponentName = this.mpGame.opponent;
     }
-
-    console.log(this.topic);
-    console.log(this.word);
 
     let wordLetters = this.word.split("");
     wordLetters.forEach(letter => {
@@ -126,12 +121,6 @@ export class GamePageComponent {
           msg = "Du hast im Spiel zum Wort " + this.word + " genau so viele Fehler gemacht wie Dein Gegner!";
         }
       }
-    }
-
-    if(won) {
-      this.gameWon=true;
-    } else {
-      this.gameOver=true;
     }
 
     let confirm = this.alertCtrl.create({

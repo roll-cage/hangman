@@ -19,7 +19,7 @@ export class UserPickerPageComponent {
     setTimeout(()=>{
         this.usernameInput.setFocus();
         Keyboard.show();
-      }, 300);
+      }, 400);
   }
 
   eventHandler(keyCode: number): void{

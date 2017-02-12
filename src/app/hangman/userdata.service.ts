@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import {Game} from "./game.model";
 import {Observable} from "rxjs";
 import {FirebaseListObservable, FirebaseObjectObservable, AngularFire} from "angularfire2";
-import {Achievement} from "./achievement.model";
-
 
 @Injectable()
 export class UserDataService {
@@ -19,16 +17,30 @@ export class UserDataService {
 
   constructor(private af: AngularFire) {}
 
-  object(path: string): FirebaseObjectObservable<any> {
+  /**
+   * Returns a Firebase Object to a given path.
+   *
+   * @param path The path to searched Object
+   * @returns {FirebaseObjectObservable<any>} The searched Firebase Object.
+   */
+  public object(path: string): FirebaseObjectObservable<any> {
     return this.af.database.object(path);
   }
 
-  initializeService(uid: string): void {
+  /**
+   * Used to initialize all user related database Observables. Needs to be called after every login and is therefore not
+   * done in the constructor.
+   *
+   * @param uid Firebase ID of the currently logged in user
+   */
+  public initializeService(uid: string): void {
     this.username = "";
     this.usermail = "";
     this.achievObjectPath = "users/" + uid + "/achievements/";
     this.fbGames = this.af.database.list("users/" + uid + "/games");
     this.fbAchievs = this.af.database.list("users/" + uid + "/achievements");
+
+    // load userName
     this.fbUsername = this.af.database.object("users/" + uid + "/username", { preserveSnapshot: true });
     let subscription1 = this.fbUsername.subscribe(
       snapshot => {
@@ -40,6 +52,7 @@ export class UserDataService {
         }
       }
     );
+    // load userEmail
     this.fbUserEmail = this.af.database.object("users/" + uid + "/email", { preserveSnapshot: true });
     let subscription2 = this.fbUserEmail.subscribe(
       snapshot => {
@@ -51,6 +64,7 @@ export class UserDataService {
         }
       }
     );
+    // load user games
     this.games = this.fbGames.map(
       (fbGames: any[]): Game[] => {
         return fbGames.map(
@@ -60,6 +74,7 @@ export class UserDataService {
             return newGame;
           })
       });
+    // load user achievements
     this.achievs = this.fbAchievs.map(
       (fbAchievs: any[]): string[] => {
         return fbAchievs.map(
@@ -69,32 +84,61 @@ export class UserDataService {
       });
   }
 
-  getUsername(): string{
+  /**
+   * Returns username of the user
+   * @returns {string}
+   */
+  public getUsername(): string{
     return this.username;
   }
 
-  getUserEmail(): string {
+  /**
+   * Returns email of the user
+   * @returns {string}
+   */
+  public getUserEmail(): string {
     return this.usermail;
   }
 
-  findGames(): Observable<Game[]> {
+  /**
+   * Returns an observable of all games
+   * @returns {Observable<Game[]>}
+   */
+  public findGames(): Observable<Game[]> {
     return this.games;
   }
 
-  findAchievIDs(): Observable<string[]> {
-    console.log(this.achievs)
+  /**
+   * Returns an observable of all achievements
+   * @returns {Observable<string[]>}
+   */
+  public findAchievIDs(): Observable<string[]> {
     return this.achievs;
   }
 
-  persistGame(game: Game): string {
+  /**
+   * Persists the given game in the user database and returns the key under which it is available.
+   * @param game The game to persist.
+   * @returns {string|null} The key that was used to persist it.
+   */
+  public persistGame(game: Game): string {
     return this.fbGames.push(game).key;
   }
 
-  persistAchiev(id: string, points: number) {
+  /**
+   * Stores a user achievement to the db in format id - points
+   * @param id
+   * @param points
+   */
+  public persistAchiev(id: string, points: number) {
     return this.af.database.object(this.achievObjectPath+id).set(points);
   }
 
-  deleteGame(game: Game): void {
+  /**
+   * Update the given game to be invisible for the user. It isn't really deleted to save it's data for the statistics.
+   * @param game The game to make invisible
+   */
+  public deleteGame(game: Game): void {
     game.visible = false;
     if(game.singleplayer){
       game.opponentName = null;
@@ -102,7 +146,12 @@ export class UserDataService {
     }
     this.fbGames.update(game.id, game);
   }
-  updateGame(game: Game): void {
+
+  /**
+   * Updates a user game with game by param
+   * @param game
+   */
+  public updateGame(game: Game): void {
     this.fbGames.update(game.id, game);
   }
 }

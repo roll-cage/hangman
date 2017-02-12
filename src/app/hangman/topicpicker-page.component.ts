@@ -20,13 +20,12 @@ export class TopicPickerPageComponent {
               private topicDataService: TopicDataService) {
     this.topics = topicDataService.getTopicNames();
     this.filteredTopics = this.topics;
-    //setTimeout(()=>this.searchbar.setFocus(), 100);
   }
   ionViewDidLoad() {
     setTimeout(()=>{
       this.searchbar.setFocus();
       Keyboard.show();
-    }, 300);
+    }, 400);
   }
   doSearch(): void{
     this.filteredTopics = this.topics.filter(m=> (

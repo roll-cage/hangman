@@ -5,7 +5,6 @@ import {UserDataService} from "./userdata.service";
 import {AchievementDataService} from "./achievementdata.service"
 import {Game} from "./game.model";
 import {LoginPageComponent} from "./login-page.component"
-//import {Topic} from "./topic.model";
 import {AngularFire} from "angularfire2";
 import {TopicDataService} from "./topicdata.service";
 import {UsernamesService} from "./usernames.service";

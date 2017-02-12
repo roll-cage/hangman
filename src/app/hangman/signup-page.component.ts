@@ -82,6 +82,10 @@ export class SignupPageComponent {
           resolve({
             "username taken": true
           });
+        } else if (control.value.length > 12) {
+          resolve({
+            "username too long": true
+          });
         } else {
           resolve(null);
         }

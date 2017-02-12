@@ -34,7 +34,7 @@ export class StatisticPageComponent {
 
   // Doughnut Charts
   doughnutChartType: string = 'doughnut';
-  // some random colors generated for 12 different topics
+  // some random colors generated for up to 12 different topics
   doughnutChartColors: any[] =  [{backgroundColor: ["#7a9efa", "#b698b2", "#94dde7", "#0db59e",
                                                             "#f586ad", "#f586ed", "#45a73a", "#d1e734",
                                                             "#7a9efa", "#a85903", "#64da85", "#ccc67b"]}];
@@ -47,9 +47,11 @@ export class StatisticPageComponent {
   doughnutChartLabelsMP: string[] = [];
 
   constructor(private userDataService: UserDataService, public nav: NavController, public alertCtrl: AlertController) {
+    // load all games
     userDataService.findGames().subscribe(
       (games: Game[]) => { this.games = games; }
     );
+    // analyze loaded games, count wins/losses and save respective topics
     this.games.forEach((game) => {
       if (game.singleplayer) {                        // SinglePlayer
         if (game.topic != null) {                     // topic=undefined -> invalid

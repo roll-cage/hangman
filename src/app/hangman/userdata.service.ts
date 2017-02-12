@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import {Game} from "./game.model";
 import {Observable} from "rxjs";
 import {FirebaseListObservable, FirebaseObjectObservable, AngularFire} from "angularfire2";
-import {Achievement} from "./achievement.model";
-
 
 @Injectable()
 export class UserDataService {
@@ -23,12 +21,18 @@ export class UserDataService {
     return this.af.database.object(path);
   }
 
+  /**
+   * Initializes variables for usage
+   * @param uid
+   */
   initializeService(uid: string): void {
     this.username = "";
     this.usermail = "";
     this.achievObjectPath = "users/" + uid + "/achievements/";
     this.fbGames = this.af.database.list("users/" + uid + "/games");
     this.fbAchievs = this.af.database.list("users/" + uid + "/achievements");
+
+    // load userName
     this.fbUsername = this.af.database.object("users/" + uid + "/username", { preserveSnapshot: true });
     let subscription1 = this.fbUsername.subscribe(
       snapshot => {
@@ -38,6 +42,7 @@ export class UserDataService {
         subscription1.unsubscribe();
       }
     );
+    // load userEmail
     this.fbUserEmail = this.af.database.object("users/" + uid + "/email", { preserveSnapshot: true });
     let subscription2 = this.fbUserEmail.subscribe(
       snapshot => {
@@ -47,6 +52,7 @@ export class UserDataService {
         subscription2.unsubscribe();
       }
     );
+    // load user games
     this.games = this.fbGames.map(
       (fbGames: any[]): Game[] => {
         return fbGames.map(
@@ -56,6 +62,7 @@ export class UserDataService {
             return newGame;
           })
       });
+    // load user achievements
     this.achievs = this.fbAchievs.map(
       (fbAchievs: any[]): string[] => {
         return fbAchievs.map(
@@ -65,31 +72,60 @@ export class UserDataService {
       });
   }
 
+  /**
+   * Returns username of the user
+   * @returns {string}
+   */
   getUsername(): string{
     return this.username;
   }
 
+  /**
+   * Returns email of the user
+   * @returns {string}
+   */
   getUserEmail(): string {
     return this.usermail;
   }
 
+  /**
+   * Returns an observable of all games
+   * @returns {Observable<Game[]>}
+   */
   findGames(): Observable<Game[]> {
     return this.games;
   }
 
+  /**
+   * Returns an observable of all achievements
+   * @returns {Observable<string[]>}
+   */
   findAchievIDs(): Observable<string[]> {
-    console.log(this.achievs)
     return this.achievs;
   }
 
+  /**
+   * Stores a user game to the db
+   * @param game
+   * @returns {string|null}
+   */
   persistGame(game: Game): string {
     return this.fbGames.push(game).key;
   }
 
+  /**
+   * Stores a user achievement to the db in format id - points
+   * @param id
+   * @param points
+   */
   persistAchiev(id: string, points: number) {
     return this.af.database.object(this.achievObjectPath+id).set(points);
   }
 
+  /**
+   * Deletes/Updates a user game from the db by disabling visability and resetting values (SP)
+   * @param game
+   */
   deleteGame(game: Game): void {
     game.visible = false;
     if(game.singleplayer){
@@ -98,6 +134,11 @@ export class UserDataService {
     }
     this.fbGames.update(game.id, game);
   }
+
+  /**
+   * Updates a user game with game by param
+   * @param game
+   */
   updateGame(game: Game): void {
     this.fbGames.update(game.id, game);
   }

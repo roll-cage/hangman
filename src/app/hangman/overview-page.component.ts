@@ -152,6 +152,28 @@ export class OverviewPageComponent {
     this.navCtrl.push(GamePageComponent, gameData);
   }
 
+  restartMPGame(game: Game): void{
+    let msg = "Willst du dich erneut gegen " + game.opponentName + " versuchen?";
+    let confirm = this.alertCtrl.create({
+      title: 'Revanche?',
+      message: msg,
+      buttons: [
+        {
+          text: "Ja!!!",
+          handler: () => {
+            this.presentTopicPickerModal(true, game.opponentName);
+          }
+        },
+        {
+          text: "Nein, danke!",
+          handler: () => {
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
   showProfile(): void {
     this.navCtrl.push(ProfilePageComponent);
   }

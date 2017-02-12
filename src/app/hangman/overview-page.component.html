@@ -45,7 +45,7 @@
             <ion-icon name="thumbs-down"></ion-icon>
           </span>
         </ion-item>
-        <ion-item text-wrap *ngIf="((!game.singleplayer) && game.visible)">
+        <ion-item text-wrap *ngIf="((!game.singleplayer) && game.visible)" (click)="restartMPGame(game)">
           <h2>MP gegen {{game.opponentName}} - Thema: {{game.topic}}</h2>
           <p>Wort: {{game.word}} - {{game.badChars}}:{{game.badCharsOpponent}}</p>
           <span item-right *ngIf="game.badChars < game.badCharsOpponent">
